@@ -85,7 +85,7 @@ class DebuggerView extends Component<DebuggerViewProps, DebuggerViewState> {
     return (
       <div style={{ display: "flex", margin: "5vh 5vw", height: "90vh" }}>
         {this.props.rasaToken ? (
-          <div className="bork-info" style={{ flex: 2, overflowY: "auto" }}>
+          <div className="debug-view" style={{ flex: 2, overflowY: "auto" }}>
             <div>
               <p>
                 Bot address: <strong>{this.props.host}</strong>
