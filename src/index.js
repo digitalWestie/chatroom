@@ -11,6 +11,8 @@ import { noop, sleep, uuidv4 } from "./utils";
 import ConnectedChatroom from "./ConnectedChatroom";
 import DebuggerView from "./DebuggerView";
 
+import { fetchTracker, extractMessages } from "./history.js";
+
 const USERID_STORAGE_KEY = "simple-chatroom-cid";
 
 type ChatroomOptions = {
@@ -56,6 +58,12 @@ window.Chatroom = function(options: ChatroomOptions) {
 
   if (isNewSession && options.startMessage != null) {
     this.ref.sendMessage(options.startMessage);
+  } else {
+    fetchTracker(options.host, sessionUserId, options.rasaToken).then(tracker => {
+      let messages = extractMessages(tracker);
+      this.ref.setState({ messages: messages });
+      this.openChat();
+    });
   }
 };
 
@@ -217,7 +225,14 @@ window.DebugChatroom = function(options: ChatroomOptions) {
   );
 
   const { startMessage } = options;
+
   if (isNewSession && startMessage != null) {
     this.ref.getChatroom().sendMessage(startMessage);
+  } else {
+    fetchTracker(options.host, sessionUserId, options.rasaToken).then(tracker => {
+      let messages = extractMessages(tracker);
+      console.log("Setting state with messages", messages);
+      this.ref.setState({ messages: messages });
+    });
   }
 };

@@ -9,7 +9,7 @@ function without(obj, prop) {
   return copy;
 }
 
-type TrackerState = {
+export type TrackerState = {
   slots: Object,
   latest_event_time: number,
   paused: boolean,
@@ -85,7 +85,7 @@ class DebuggerView extends Component<DebuggerViewProps, DebuggerViewState> {
     return (
       <div style={{ display: "flex", margin: "5vh 5vw", height: "90vh" }}>
         {this.props.rasaToken ? (
-          <div style={{ flex: 2, overflowY: "auto" }}>
+          <div className="bork-info" style={{ flex: 2, overflowY: "auto" }}>
             <div>
               <p>
                 Bot address: <strong>{this.props.host}</strong>
@@ -95,7 +95,7 @@ class DebuggerView extends Component<DebuggerViewProps, DebuggerViewState> {
               </p>
             </div>
             {tracker != null ? (
-              <div>
+              <div className="track-info">
                 <h3>Slots</h3>
                 <pre style={preStyle}>
                   {JSON.stringify(tracker.slots, null, 2)}
