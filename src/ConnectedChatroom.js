@@ -6,6 +6,8 @@ import type { ChatMessage, MessageType } from "./Chatroom";
 import Chatroom from "./Chatroom";
 import { sleep, uuidv4 } from "./utils";
 
+import { fetchTracker, extractMessages } from "./history.js";
+
 type ConnectedChatroomProps = {
   userId: string,
   host: string,
@@ -16,7 +18,9 @@ type ConnectedChatroomProps = {
   messageBlacklist: Array<string>,
   handoffIntent: string,
   fetchOptions?: RequestOptions,
-  voiceLang: ?string
+  voiceLang: ?string,
+  rasaToken?: string,
+  recoverHistory?: boolean
 };
 type ConnectedChatroomState = {
   messages: Array<ChatMessage>,
@@ -63,6 +67,16 @@ export default class ConnectedChatroom extends Component<
   messageQueueInterval: ?IntervalID = null;
   chatroomRef = React.createRef<Chatroom>();
 
+  showWelcomeMessage = () => {
+    const welcomeMessage = {
+      message: { type: "text", text: this.props.welcomeMessage },
+      time: Date.now(),
+      username: "bot",
+      uuid: uuidv4()
+    };
+    this.setState({ messages: [welcomeMessage] });
+  }
+
   componentDidMount() {
     const messageDelay = 800; //delay between message in ms
     this.messageQueueInterval = window.setInterval(
@@ -70,14 +84,21 @@ export default class ConnectedChatroom extends Component<
       messageDelay
     );
 
-    if (this.props.welcomeMessage) {
-      const welcomeMessage = {
-        message: { type: "text", text: this.props.welcomeMessage },
-        time: Date.now(),
-        username: "bot",
-        uuid: uuidv4()
-      };
-      this.setState({ messages: [welcomeMessage] });
+    if (this.props.recoverHistory) {
+      this.setState({ waitingForBotResponse: true });
+      fetchTracker(this.props.host, this.props.userId, this.props.rasaToken).then(
+        (tracker) => {
+          let messages = extractMessages(tracker);
+          this.setState({ messages: messages });
+        }).catch((e) => {
+          console.error("Coudldn't recover message history: ", e);
+        }).then(()=>{
+          this.setState({ waitingForBotResponse: false });
+          if (this.props.welcomeMessage && this.state.messages.length === 0)
+            this.showWelcomeMessage();
+        });
+    } else if (this.props.welcomeMessage) {
+      this.showWelcomeMessage();
     }
   }
 

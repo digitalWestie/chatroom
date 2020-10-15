@@ -14,7 +14,6 @@ export const fetchTracker = (host:string, userId:string, rasaToken:?string): Pro
 }
 
 export const extractMessages = (tracker) => {
-  console.log("Extracting messages from tracker", tracker);
   let messages = []; let msgDetail = {};
   for (event of tracker.events){
     if (["user", "bot"].includes(event.event)){
@@ -34,7 +33,7 @@ export const extractMessages = (tracker) => {
 
       messages.push({
         message: msgDetail,
-        time: Math.round(event.timestamp * 1000), //need to convert from 1602759595.31963 to 1602760664680 format
+        time: Math.round(event.timestamp * 1000),
         username: event.event,
         uuid: event.message_id
       });

@@ -11,8 +11,6 @@ import { noop, sleep, uuidv4 } from "./utils";
 import ConnectedChatroom from "./ConnectedChatroom";
 import DebuggerView from "./DebuggerView";
 
-import { fetchTracker, extractMessages } from "./history.js";
-
 const USERID_STORAGE_KEY = "simple-chatroom-cid";
 
 type ChatroomOptions = {
@@ -24,8 +22,9 @@ type ChatroomOptions = {
   container: HTMLElement,
   waitingTimeout?: number,
   fetchOptions?: RequestOptions,
+  voiceLang?: string,
   rasaToken?: string,
-  voiceLang?: string
+  recoverHistory?: boolean
 };
 
 window.Chatroom = function(options: ChatroomOptions) {
@@ -40,6 +39,7 @@ window.Chatroom = function(options: ChatroomOptions) {
 
   this.ref = ReactDOM.render(
     <ConnectedChatroom
+      rasaToken={options.rasaToken}
       userId={sessionUserId}
       host={options.host}
       title={options.title || "Chat"}
@@ -48,6 +48,7 @@ window.Chatroom = function(options: ChatroomOptions) {
       waitingTimeout={options.waitingTimeout}
       fetchOptions={options.fetchOptions}
       voiceLang={options.voiceLang}
+      recoverHistory={options.recoverHistory}
     />,
     options.container
   );
@@ -58,12 +59,6 @@ window.Chatroom = function(options: ChatroomOptions) {
 
   if (isNewSession && options.startMessage != null) {
     this.ref.sendMessage(options.startMessage);
-  } else {
-    fetchTracker(options.host, sessionUserId, options.rasaToken).then(tracker => {
-      let messages = extractMessages(tracker);
-      this.ref.setState({ messages: messages });
-      this.openChat();
-    });
   }
 };
 
@@ -220,6 +215,7 @@ window.DebugChatroom = function(options: ChatroomOptions) {
       waitingTimeout={options.waitingTimeout}
       fetchOptions={options.fetchOptions}
       voiceLang={options.voiceLang}
+      recoverHistory={options.recoverHistory}
     />,
     options.container
   );
@@ -228,11 +224,5 @@ window.DebugChatroom = function(options: ChatroomOptions) {
 
   if (isNewSession && startMessage != null) {
     this.ref.getChatroom().sendMessage(startMessage);
-  } else {
-    fetchTracker(options.host, sessionUserId, options.rasaToken).then(tracker => {
-      let messages = extractMessages(tracker);
-      console.log("Setting state with messages", messages);
-      this.ref.setState({ messages: messages });
-    });
   }
 };

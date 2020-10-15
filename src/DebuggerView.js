@@ -128,6 +128,7 @@ class DebuggerView extends Component<DebuggerViewProps, DebuggerViewState> {
         <div style={{ flex: 1 }}>
           <ConnectedChatroom
             ref={this.chatroomRef}
+            rasaToken={this.props.rasaToken}
             userId={this.props.userId}
             host={this.props.host}
             title={"Chat"}
@@ -135,6 +136,7 @@ class DebuggerView extends Component<DebuggerViewProps, DebuggerViewState> {
             voiceLang={this.props.voiceLang}
             welcomeMessage={this.props.welcomeMessage}
             fetchOptions={this.props.fetchOptions}
+            recoverHistory={this.props.recoverHistory}
           />
         </div>
       </div>
