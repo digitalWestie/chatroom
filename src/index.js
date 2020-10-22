@@ -45,6 +45,7 @@ window.Chatroom = function(options: ChatroomOptions) {
       title={options.title || "Chat"}
       speechRecognition={options.speechRecognition}
       welcomeMessage={options.welcomeMessage}
+      startMessage={options.startMessage}
       waitingTimeout={options.waitingTimeout}
       fetchOptions={options.fetchOptions}
       voiceLang={options.voiceLang}
@@ -56,10 +57,6 @@ window.Chatroom = function(options: ChatroomOptions) {
   this.openChat = () => {
     this.ref.setState({ isOpen: true });
   };
-
-  if (isNewSession && options.startMessage != null) {
-    this.ref.sendMessage(options.startMessage);
-  }
 };
 
 type DemoChatroomOptions = {
@@ -212,6 +209,7 @@ window.DebugChatroom = function(options: ChatroomOptions) {
       title={options.title || "Chat"}
       speechRecognition={options.speechRecognition}
       welcomeMessage={options.welcomeMessage}
+      startMessage={options.startMessage}
       waitingTimeout={options.waitingTimeout}
       fetchOptions={options.fetchOptions}
       voiceLang={options.voiceLang}
@@ -219,10 +217,4 @@ window.DebugChatroom = function(options: ChatroomOptions) {
     />,
     options.container
   );
-
-  const { startMessage } = options;
-
-  if (isNewSession && startMessage != null) {
-    this.ref.getChatroom().sendMessage(startMessage);
-  }
 };

@@ -22,6 +22,7 @@ type DebuggerViewProps = {
   userId: string,
   host: string,
   welcomeMessage: ?string,
+  startMessage: ?string,
   title: string,
   waitingTimeout?: number,
   speechRecognition: ?string,
@@ -135,6 +136,7 @@ class DebuggerView extends Component<DebuggerViewProps, DebuggerViewState> {
             speechRecognition={this.props.speechRecognition}
             voiceLang={this.props.voiceLang}
             welcomeMessage={this.props.welcomeMessage}
+            startMessage={this.props.startMessage}
             fetchOptions={this.props.fetchOptions}
             recoverHistory={this.props.recoverHistory}
           />

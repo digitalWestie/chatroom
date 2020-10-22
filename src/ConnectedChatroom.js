@@ -12,6 +12,7 @@ type ConnectedChatroomProps = {
   userId: string,
   host: string,
   welcomeMessage: ?string,
+  startMessage: ?string,
   title: string,
   waitingTimeout: number,
   speechRecognition: ?string,
@@ -66,39 +67,58 @@ export default class ConnectedChatroom extends Component<
   waitingForBotResponseTimer: ?TimeoutID = null;
   messageQueueInterval: ?IntervalID = null;
   chatroomRef = React.createRef<Chatroom>();
+  welcomeMessageObj = {
+    message: { type: "text", text: this.props.welcomeMessage },
+    time: Date.now(),
+    username: "bot",
+    uuid: uuidv4()
+  };
 
   showWelcomeMessage = () => {
-    const welcomeMessage = {
-      message: { type: "text", text: this.props.welcomeMessage },
-      time: Date.now(),
-      username: "bot",
-      uuid: uuidv4()
-    };
-    this.setState({ messages: [welcomeMessage] });
+    console.log("showing welcome message");
+    if (this.props.welcomeMessage) {
+      this.setState({ messages: [this.welcomeMessageObj] });
+    }
+  }
+
+  sendStartMessage = () => {
+    console.log("start message", this.props.startMessage);
+    if (this.props.startMessage){
+      this.sendMessage(this.props.startMessage);
+    }
   }
 
   componentDidMount() {
-    const messageDelay = 800; //delay between message in ms
+    const messageDelay = 1800; //delay between message in ms
     this.messageQueueInterval = window.setInterval(
       this.queuedMessagesInterval,
       messageDelay
     );
 
+    console.log(this.props);
+
     if (this.props.recoverHistory) {
+      let messages = []; let noneRetrieved = false;
       this.setState({ waitingForBotResponse: true });
+
       fetchTracker(this.props.host, this.props.userId, this.props.rasaToken).then(
         (tracker) => {
-          let messages = extractMessages(tracker);
-          this.setState({ messages: messages });
+          messages = extractMessages(tracker);
+          noneRetrieved = (messages.length === 0);
         }).catch((e) => {
           console.error("Coudldn't recover message history: ", e);
-        }).then(()=>{
-          this.setState({ waitingForBotResponse: false });
-          if (this.props.welcomeMessage && this.state.messages.length === 0)
-            this.showWelcomeMessage();
+        }).then(() => {
+          if (this.props.welcomeMessage){
+            if (!noneRetrieved){ this.welcomeMessageObj.time = (messages[0].time-1); } //make sure earliest msg
+            messages.push(this.welcomeMessageObj);
+          }
+          this.setState({ messages: messages, waitingForBotResponse: false });
+          if (noneRetrieved) { console.log("nothing retrieved send start msg"); this.sendStartMessage(); }
         });
-    } else if (this.props.welcomeMessage) {
+
+    } else {
       this.showWelcomeMessage();
+      this.sendStartMessage();
     }
   }
 
@@ -126,6 +146,7 @@ export default class ConnectedChatroom extends Component<
     if (!this.props.messageBlacklist.includes(messageText) && !messageText.match(this.handoffregex)) {
       this.setState({
         // Reveal all queued bot messages when the user sends a new message
+        // otherwise, do not show the blacklist messages
         messages: [
           ...this.state.messages,
           ...this.state.messageQueue,
