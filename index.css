@@ -1,14 +1,14 @@
 * {
-  font-family: "Open Sans", Helvetica, "Helvetica Neue", sans-serif;
+  font-family: "Lucida Sans Unicode","Lucida Grande","Lucida Sans",sans-serif;
   box-sizing: border-box;
 }
 
-.chat-container {
-}
+body { margin: 0; padding: 0; }
+.chat-container { margin: 0; padding: 0; }
 
 @media (max-width: 400px) {
   .chat-container {
-    margin: 20px 10px;
+    /*margin: 20px 10px;*/
     width: auto;
   }
 }
@@ -28,4 +28,9 @@
 }
 .chat-demo-button:active {
   background-color: rgba(52, 61, 78, 0.8);
+}
+
+div.chats {
+  background-image: url('./dionysus.png');
+  background-size: 240px;
 }

@@ -1,16 +1,22 @@
-$backgroundColor: rgba(200, 200, 200, 0.9);
-$chromeColor: rgba(52, 61, 78, 1);
-$chromeColor2: white;
-$chromeColor3: grey;
-$bubbleColor: rgba(255, 255, 255, 0.8);
-$textColor: rgba(52, 61, 78, 1);
+$chromeColor: #1C1C1C;
+$hotpink: #E6007C;
+$yellow: rgb(249, 240, 0);
+$easeYellow: rgba(249, 240, 0, 0.75);
+$white: white;
+$grey: rgb(236, 240, 243);
+$darkGrey: #555;
+$blue: rgb(1, 167, 245);
+$easeBlue: rgba(1, 167, 245, 0.75);
+$bubbleColor: $blue;
+$textColor: rgb(28, 28, 28);
 $linkColor: #3498db;
+$backgroundColor: rgb(250,250,250);
 
 .chatroom {
   width: 100%;
-  height: 600px;
+  /*height: 600px;*/
   color: $textColor;
-  max-height: 90vh;
+  height: 100vh;
   background-color: $backgroundColor;
   border-radius: 3px;
   border-bottom-left-radius: 0;
@@ -21,45 +27,63 @@ $linkColor: #3498db;
   box-shadow: 0 0 0 2px rgba(white, 0.8);
 
   * {
+    font-family: "Lucida Sans Unicode","Lucida Grande","Lucida Sans",sans-serif;
     box-sizing: border-box;
+    font-size: 16px;
   }
 
   &.closed {
-    height: 40px;
+    height: 60px;
+
+    .input { display: none; }
   }
 
   h3 {
     background-color: $chromeColor;
     color: #fff;
     margin: 0;
-    height: 40px;
+    height: 3em;
     font-weight: 600;
-    font-size: 18px;
+    font-size: 1.2em;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    border-bottom: 0.3em solid $blue;
   }
 
   .chats {
     box-sizing: border-box;
     padding: 20px;
     margin: 0;
-    height: calc(100% - 80px);
+    height: calc(100% - 7.5em);
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
 
+    /*
+    .chat.right::before {
+      box-sizing: border-box;
+      display: block;
+      width: 75%;
+      height: 5px;
+      content: "";
+      position: absolute;
+      bottom: -9px;
+      right: 0;
+      background-color: $hotpink;
+    }*/
+
     .chat {
-      background: $bubbleColor;
       position: relative;
-      padding: 5px 13px;
-      font-size: 14px;
-      border-radius: 10px;
+      padding: 0.5em 1em;
+      font-size: 1em;
+      border-radius: 6px;
       list-style: none;
       float: left;
       clear: both;
       margin: 10px 0 0 0;
       max-width: 90%;
+      background-color: $easeBlue;
 
       img {
         max-width: 100%;
@@ -138,7 +162,7 @@ $linkColor: #3498db;
       list-style: none;
       clear: both;
       height: 10px;
-      font-size: 10px;
+      font-size: 0.7em;
       color: desaturate($textColor, 50%);
       margin: 5px 0 20px 0;
 
@@ -153,7 +177,7 @@ $linkColor: #3498db;
     .chat-buttons {
       position: relative;
       padding: 0;
-      font-size: 14px;
+      font-size: 1em;
       list-style: none;
       clear: both;
       margin: 10px 0;
@@ -166,8 +190,8 @@ $linkColor: #3498db;
         margin: 3px;
 
         background-color: $chromeColor;
-        color: $chromeColor2;
-        border: 2px solid $chromeColor2;
+        color: $white;
+        border: 2px solid $white;
         padding: 5px 10px;
         letter-spacing: normal;
         border-radius: 5px;
@@ -175,60 +199,62 @@ $linkColor: #3498db;
         &:hover,
         &.chat-button-selected {
           background-color: rgba($chromeColor, 0.6);
-          color: $chromeColor2;
+          color: $white;
         }
         &.chat-button-disabled {
-          color: $chromeColor3;
-          border: 2px solid $chromeColor3;
+          opacity: 0.75;
         }
       }
     }
   }
 
   .input {
-    height: 40px;
+    height: auto;
     width: 100%;
     margin: 0;
-    padding: 0 5px;
-    background-color: $chromeColor;
+    padding: 0 0;
+    background-color: none;
     display: flex;
     flex-direction: row;
     align-items: center;
+    position: fixed;
+    bottom: 0px;
+
+    input[type="text"], input[type="submit"] {
+      padding: 0.5em 0em;
+      font-size: 1em;
+      line-height: 2em;
+      border: none;
+      height: auto;
+      opacity: 0.85;
+      border-top: 0.3em solid $darkGrey;
+    }
 
     input[type="text"] {
-      background-color: rgba(white, 0.8);
+      padding-left: 1em;
+      background-color: $grey;
       outline: 0;
-      border: 1px solid $chromeColor2;
-      border-right: none;
       color: $textColor;
-      padding: 0 5px;
-      border-top-left-radius: 3px;
-      border-bottom-left-radius: 3px;
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-      height: 30px;
+      height: auto;
       flex: 4;
       box-sizing: border-box;
-      font-size: 14px;
       transition: background-color 0.2s ease;
 
       &:focus {
         box-shadow: none;
-        background-color: white;
+        opacity: 1;
+        border-top: 0.3em solid $hotpink;
       }
     }
 
     input[type="submit"] {
       display: inline-block;
-      background: $chromeColor;
-      border: 1px solid $chromeColor2;
-      color: $chromeColor2;
-      height: 30px;
+      background: $yellow;
+      color: $textColor;
       min-width: 70px;
-      line-height: 1;
+      line-height: 2em;
       text-align: center;
-      padding: 0;
-      font-size: 12px;
+      font-size: 1em;
       flex: 1;
       box-shadow: none;
       border-top-left-radius: 0;
@@ -242,10 +268,12 @@ $linkColor: #3498db;
       text-overflow: ellipsis;
       outline: none;
       font-weight: 600;
-      text-transform: uppercase;
 
       &:hover {
-        background: $bubbleColor;
+        background: $hotpink;
+        color: $white;
+        opacity: 1;
+        border-top: 0.3em solid $hotpink;
       }
     }
   }
@@ -255,8 +283,8 @@ $linkColor: #3498db;
     width: 30px;
     margin-left: 5px;
     background: $chromeColor;
-    border: 1px solid $chromeColor2;
-    color: $chromeColor2;
+    border: 1px solid $white;
+    color: $white;
     border-radius: 3px;
     cursor: pointer;
     transition: all 0.3s ease;

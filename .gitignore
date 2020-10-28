@@ -6,3 +6,5 @@ __pycache__
 .vscode
 devnotes.md
 chatroom.zip
+assets/
+upbuild.sh
