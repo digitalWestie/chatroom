@@ -1,5 +1,6 @@
 // @flow
 import type { TrackerState } from "./DebuggerView";
+import { uuidv4 } from "./utils";
 
 export const fetchTracker = (host:string, userId:string, rasaToken:?string): Promise<TrackerState> => {
   if (rasaToken) {
@@ -15,29 +16,36 @@ export const fetchTracker = (host:string, userId:string, rasaToken:?string): Pro
 
 export const extractMessages = (tracker) => {
   let messages = []; let msgDetail = {};
+  let messageObj = {};
   for (event of tracker.events){
-    if (["user", "bot"].includes(event.event)){
-      if (event.text){
-        msgDetail = { type: "text", text: event.text };
-      } else if (event.buttons) {
-        msgDetail = { type: "buttons", text: event.buttons };
-      } else if (event.image) {
-        msgDetail = { type: "image", text: event.image };
-      } else if (event.attachment) {
-        msgDetail = { type: "text", text: event.attachment };
-      } else if (event.custom && event.custom.handoff_host) {
-        throw Error("Not yet implemented (handling of custom handoff event)");
-      } else {
-        throw Error("Could not parse message from Bot or empty message");
-      }
-
-      messages.push({
-        message: msgDetail,
+    if (["user", "bot"].includes(event.event)) {
+      messageObj = {
         time: Math.round(event.timestamp * 1000),
         username: event.event,
-        uuid: event.message_id
-      });
+        uuid: event.message_id,
+        message: {}
+      }
+
+      if (event.text){
+        msgDetail = { type: "text", text: event.text };
+        messages.push({ ...messageObj, message: msgDetail });
+      }
+
+      //text may come with button or other so add these as as separate message
+      if (event.data && event.data.buttons) {
+        msgDetail = { type: "button", buttons: event.data.buttons };
+        messages.push({ ...messageObj, message: msgDetail });
+      } else if (event.data && event.data.image) {
+        msgDetail = { type: "image", text: event.data.image };
+        messages.push({ ...messageObj, message: msgDetail });
+      } else if (event.data && event.data.attachment) {
+        msgDetail = { type: "text", text: event.data.attachment };
+        messages.push({ ...messageObj, message: msgDetail });
+      } else if (event.data && event.data.custom) { // && event.data.custom.handoff_host
+        console.error("Not yet implemented (handling of custom handoff event)");
+      }
     }
   }
+
   return messages;
 }
