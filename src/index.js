@@ -7,7 +7,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import Chatroom from "./Chatroom";
-import { noop, sleep, uuidv4 } from "./utils";
+import { noop, sleep, uuidv4, getAllUrlParams } from "./utils";
 import ConnectedChatroom from "./ConnectedChatroom";
 import DebuggerView from "./DebuggerView";
 
@@ -27,7 +27,7 @@ type ChatroomOptions = {
   recoverHistory?: boolean
 };
 
-window.Chatroom = function(options: ChatroomOptions) {
+const determineSession = () => {
   let sessionUserId = window.sessionStorage.getItem(USERID_STORAGE_KEY);
 
   const isNewSession = sessionUserId == null;
@@ -36,6 +36,14 @@ window.Chatroom = function(options: ChatroomOptions) {
     sessionUserId = uuidv4();
     window.sessionStorage.setItem(USERID_STORAGE_KEY, sessionUserId);
   }
+
+  console.log("URL Params", getAllUrlParams())
+
+  return sessionUserId;
+}
+
+window.Chatroom = function(options: ChatroomOptions) {
+  let sessionUserId = determineSession();
 
   this.ref = ReactDOM.render(
     <ConnectedChatroom
@@ -192,14 +200,7 @@ window.DemoChatroom = function(options: DemoChatroomOptions) {
 };
 
 window.DebugChatroom = function(options: ChatroomOptions) {
-  let sessionUserId = window.sessionStorage.getItem(USERID_STORAGE_KEY);
-
-  const isNewSession = sessionUserId == null;
-
-  if (isNewSession) {
-    sessionUserId = uuidv4();
-    window.sessionStorage.setItem(USERID_STORAGE_KEY, sessionUserId);
-  }
+  let sessionUserId = determineSession();
 
   this.ref = ReactDOM.render(
     <DebuggerView

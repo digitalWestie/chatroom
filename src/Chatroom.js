@@ -198,7 +198,6 @@ export default class Chatroom extends Component<ChatroomProps, ChatroomState> {
     const { messages, isOpen, waitingForBotResponse, voiceLang } = this.props;
     const messageGroups = this.groupMessages(messages);
     const isClickable = i => !waitingForBotResponse && i == messageGroups.length - 1;
-    //console.log("last message group ", messageGroups[messageGroups.length-1]);
     let isButtonMsg, lastMessage = messages[messages.length-1];
     try   { isButtonMsg = lastMessage.message.buttons.length > 0 }
     catch { isButtonMsg = false; }
