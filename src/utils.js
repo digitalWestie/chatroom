@@ -24,7 +24,7 @@ export function getAllUrlParams(url) {
       var paramName = a[0];
       var paramValue = typeof (a[1]) === 'undefined' ? true : a[1];
 
-      paramName = paramName.toLowerCase();
+      //paramName = paramName.toLowerCase(); // why was this here?
       if (typeof paramValue === 'string') paramValue = paramValue.toLowerCase();
 
       if (paramName.match(/\[(\d+)?\]$/)) {

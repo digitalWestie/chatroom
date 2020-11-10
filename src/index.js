@@ -28,17 +28,23 @@ type ChatroomOptions = {
 };
 
 const determineSession = () => {
-  let sessionUserId = window.sessionStorage.getItem(USERID_STORAGE_KEY);
+  const urlParams = getAllUrlParams();
+  let sessionUserId = urlParams.sessionId;
+
+  if (!sessionUserId){
+    console.debug("No session id in params, attempt retrieve from storage");
+    sessionUserId = window.sessionStorage.getItem(USERID_STORAGE_KEY);
+  }
 
   const isNewSession = sessionUserId == null;
 
   if (isNewSession) {
+    console.debug("Is new session");
     sessionUserId = uuidv4();
     window.sessionStorage.setItem(USERID_STORAGE_KEY, sessionUserId);
   }
 
-  console.log("URL Params", getAllUrlParams())
-
+  console.debug("sessionUserId", sessionUserId)
   return sessionUserId;
 }
 
