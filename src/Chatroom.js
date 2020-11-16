@@ -74,7 +74,8 @@ type ChatroomProps = {
   onButtonClick: (message: string, payload: string) => *,
   onSendMessage: (message: string) => *,
   onToggleChat: () => *,
-  voiceLang: ?string
+  voiceLang: ?string,
+  disableForm?: boolean
 };
 
 type ChatroomState = {
@@ -195,7 +196,7 @@ export default class Chatroom extends Component<ChatroomProps, ChatroomState> {
   };
 
   render() {
-    const { messages, isOpen, waitingForBotResponse, voiceLang } = this.props;
+    const { messages, isOpen, waitingForBotResponse, voiceLang, disableForm } = this.props;
     const messageGroups = this.groupMessages(messages);
     const isClickable = i => !waitingForBotResponse && i == messageGroups.length - 1;
     let isButtonMsg, lastMessage = messages[messages.length-1];
@@ -218,9 +219,10 @@ export default class Chatroom extends Component<ChatroomProps, ChatroomState> {
           ))}
           {waitingForBotResponse ? <WaitingBubble /> : null}
         </div>
-        <form className="input" onSubmit={this.handleSubmitMessage}>
+
+        <form className="input" disabled={disableForm} onSubmit={this.handleSubmitMessage}>
           <input
-            disabled={waitingForBotResponse || isButtonMsg}
+            disabled={waitingForBotResponse || isButtonMsg || disableForm}
             type="text"
             value={this.state.inputValue}
             onChange={event =>
@@ -228,9 +230,10 @@ export default class Chatroom extends Component<ChatroomProps, ChatroomState> {
             }
             ref={this.inputRef}
           />
-          <input type="submit" value="Send" />
+          <input type="submit" value="Send" disabled={disableForm} />
           {this.props.speechRecognition != null ? (
             <SpeechInput
+              disableForm={disableForm}
               language={this.props.speechRecognition}
               onSpeechInput={message => this.handleInputChange(message, true)}
               onSpeechEnd={this.handleSubmitMessage}

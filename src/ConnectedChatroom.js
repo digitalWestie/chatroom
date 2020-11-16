@@ -21,7 +21,8 @@ type ConnectedChatroomProps = {
   fetchOptions?: RequestOptions,
   voiceLang: ?string,
   rasaToken?: string,
-  recoverHistory?: boolean
+  recoverHistory?: boolean,
+  disableForm?: boolean
 };
 type ConnectedChatroomState = {
   messages: Array<ChatMessage>,
@@ -321,6 +322,7 @@ export default class ConnectedChatroom extends Component<
         onSendMessage={this.sendMessage}
         ref={this.chatroomRef}
         voiceLang={this.props.voiceLang}
+        disableForm={this.props.disableForm}
         host={this.state.currenthost}
       />
     );

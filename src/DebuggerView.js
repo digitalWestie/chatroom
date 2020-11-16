@@ -29,7 +29,8 @@ type DebuggerViewProps = {
   voiceLang: ?string,
   messageBlacklist?: Array<string>,
   fetchOptions?: RequestOptions,
-  rasaToken?: string
+  rasaToken?: string,
+  disableForm?: boolean
 };
 type DebuggerViewState = {
   tracker: ?TrackerState
@@ -139,6 +140,7 @@ class DebuggerView extends Component<DebuggerViewProps, DebuggerViewState> {
             startMessage={this.props.startMessage}
             fetchOptions={this.props.fetchOptions}
             recoverHistory={this.props.recoverHistory}
+            disableForm={this.props.disableForm}
           />
         </div>
       </div>
