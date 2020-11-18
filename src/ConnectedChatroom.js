@@ -96,8 +96,6 @@ export default class ConnectedChatroom extends Component<
       messageDelay
     );
 
-    console.log(this.props);
-
     if (this.props.recoverHistory) {
       let messages = []; let noneRetrieved = false;
       this.setState({ waitingForBotResponse: true });

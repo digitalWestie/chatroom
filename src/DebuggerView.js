@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import ConnectedChatroom from "./ConnectedChatroom";
 import { uuidv4 } from "./utils";
-import { fetchTracker } from "./history.js";
+import { fetchTracker, extractMessages } from "./history.js";
 
 function without(obj, prop) {
   const copy = Object.assign({}, obj);
@@ -60,9 +60,13 @@ class DebuggerView extends Component<DebuggerViewProps, DebuggerViewState> {
   }
 
   updateTrackerView = async () => {
-    const { host, userId, rasaToken } = this.props;
+    const { host, userId, rasaToken, disableForm } = this.props;
     const tracker = await fetchTracker(host, userId, rasaToken);
     this.setState(() => ({ tracker }));
+    if (disableForm) {
+      //we wont generate any messagse so keep up to date with latest messages
+      this.chatroomRef.current.setState({ messages: extractMessages(tracker) });
+    }
   };
 
   render() {
