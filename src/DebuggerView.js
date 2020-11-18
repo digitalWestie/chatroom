@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import ConnectedChatroom from "./ConnectedChatroom";
 import { uuidv4 } from "./utils";
+import { fetchTracker } from "./history.js";
 
 function without(obj, prop) {
   const copy = Object.assign({}, obj);
@@ -58,22 +59,9 @@ class DebuggerView extends Component<DebuggerViewProps, DebuggerViewState> {
     return this.chatroomRef.current;
   }
 
-  fetchTracker(): Promise<TrackerState> {
-    const { host, userId, rasaToken } = this.props;
-
-    if (rasaToken) {
-      return fetch(
-        `${host}/conversations/${userId}/tracker?token=${rasaToken}`
-      ).then(res => res.json());
-    } else {
-      throw Error(
-        'Rasa Auth Token is missing. Start your bot with the REST API enabled and specify an auth token. E.g. --enable_api --cors "*" --auth_token abc'
-      );
-    }
-  }
-
   updateTrackerView = async () => {
-    const tracker = await this.fetchTracker();
+    const { host, userId, rasaToken } = this.props;
+    const tracker = await fetchTracker(host, userId, rasaToken);
     this.setState(() => ({ tracker }));
   };
 
