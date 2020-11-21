@@ -1,17 +1,4 @@
-* {
-  font-family: "Lucida Sans Unicode","Lucida Grande","Lucida Sans",sans-serif;
-  box-sizing: border-box;
-}
-
-body { margin: 0; padding: 0; }
-.chat-container { margin: 0; padding: 0; }
-
-@media (max-width: 400px) {
-  .chat-container {
-    /*margin: 20px 10px;*/
-    width: auto;
-  }
-}
+/* Deployment Specific Styles */
 
 .chat-demo-button {
   border-radius: 3px;

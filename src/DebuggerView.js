@@ -77,9 +77,23 @@ class DebuggerView extends Component<DebuggerViewProps, DebuggerViewState> {
     };
 
     return (
-      <div style={{ display: "flex", margin: "5vh 5vw", height: "90vh" }}>
+      <div className="debug-view" style={{}}>
+        <ConnectedChatroom
+          ref={this.chatroomRef}
+          rasaToken={this.props.rasaToken}
+          userId={this.props.userId}
+          host={this.props.host}
+          title={"Chat"}
+          speechRecognition={this.props.speechRecognition}
+          voiceLang={this.props.voiceLang}
+          welcomeMessage={this.props.welcomeMessage}
+          startMessage={this.props.startMessage}
+          fetchOptions={this.props.fetchOptions}
+          recoverHistory={this.props.recoverHistory}
+          disableForm={this.props.disableForm}
+        />
         {this.props.rasaToken ? (
-          <div className="debug-view" style={{ flex: 2, overflowY: "auto" }}>
+          <div className={"data-history"}>
             <div>
               <p>
                 Bot address: <strong>{this.props.host}</strong>
@@ -110,7 +124,7 @@ class DebuggerView extends Component<DebuggerViewProps, DebuggerViewState> {
             ) : null}
           </div>
         ) : (
-          <div style={{ flex: 2, overflowY: "auto" }}>
+          <div style={{ overflowY: "auto" }}>
             Either Rasa REST API is not enabled (e.g. --enable_api --cors "*")
             or{" "}
             <a href="https://rasa.com/docs/rasa/api/http-api/">
@@ -119,22 +133,6 @@ class DebuggerView extends Component<DebuggerViewProps, DebuggerViewState> {
             .
           </div>
         )}
-        <div style={{ flex: 1 }}>
-          <ConnectedChatroom
-            ref={this.chatroomRef}
-            rasaToken={this.props.rasaToken}
-            userId={this.props.userId}
-            host={this.props.host}
-            title={"Chat"}
-            speechRecognition={this.props.speechRecognition}
-            voiceLang={this.props.voiceLang}
-            welcomeMessage={this.props.welcomeMessage}
-            startMessage={this.props.startMessage}
-            fetchOptions={this.props.fetchOptions}
-            recoverHistory={this.props.recoverHistory}
-            disableForm={this.props.disableForm}
-          />
-        </div>
       </div>
     );
   }
