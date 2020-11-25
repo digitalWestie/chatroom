@@ -36,7 +36,7 @@ export const extractMessages = (tracker) => {
         msgDetail = { type: "button", buttons: event.data.buttons };
         messages.push({ ...messageObj, message: msgDetail });
       } else if (event.data && event.data.image) {
-        msgDetail = { type: "image", text: event.data.image };
+        msgDetail = { type: "image", image: event.data.image };
         messages.push({ ...messageObj, message: msgDetail });
       } else if (event.data && event.data.attachment) {
         msgDetail = { type: "text", text: event.data.attachment };

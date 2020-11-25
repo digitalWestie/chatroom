@@ -236,7 +236,12 @@ export default class ConnectedChatroom extends Component<
         );
       }
 
-      if (message.custom && message.custom.handoff_host) {
+      if (message.custom && message.custom.delay) {
+        validMessage = true;
+        expandedMessages.push(
+          this.createNewBotMessage({ type: "delay", delay: message.custom.delay })
+        );
+      } else if (message.custom && message.custom.handoff_host) {
         validMessage = true;
         this.setState({
           currenthost: message.custom.handoff_host
