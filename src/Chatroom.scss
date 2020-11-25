@@ -9,7 +9,7 @@ $blue: rgb(1, 167, 245);
 $easeBlue: rgba(1, 167, 245, 0.75);
 $bubbleColor: $blue;
 $textColor: rgb(28, 28, 28);
-$linkColor: #3498db;
+$linkColor: $hotpink;
 $backgroundColor: rgb(250,250,250);
 
 body {
@@ -89,7 +89,7 @@ body {
       float: left;
       clear: both;
       margin: 10px 0 0 0;
-      max-width: 90%;
+      max-width: 68%;
       background-color: $easeBlue;
 
       img {
@@ -118,7 +118,7 @@ body {
       }
 
       a {
-        text-decoration: none;
+        text-decoration: underline;
         color: $linkColor;
       }
 
