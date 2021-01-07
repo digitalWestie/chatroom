@@ -6,7 +6,7 @@ import type { ChatMessage, MessageType } from "./Chatroom";
 import Chatroom from "./Chatroom";
 import { sleep, uuidv4 } from "./utils";
 
-import { fetchTracker, extractMessages } from "./history.js";
+import { fetchTracker, extractMessages, appendEvents } from "./tracker.js";
 
 type ConnectedChatroomProps = {
   userId: string,
@@ -24,6 +24,7 @@ type ConnectedChatroomProps = {
   recoverHistory?: boolean,
   disableForm?: boolean
 };
+
 type ConnectedChatroomState = {
   messages: Array<ChatMessage>,
   messageQueue: Array<ChatMessage>,
@@ -100,7 +101,7 @@ export default class ConnectedChatroom extends Component<
       let messages = []; let noneRetrieved = false;
       this.setState({ waitingForBotResponse: true });
 
-      fetchTracker(this.props.host, this.props.userId, this.props.rasaToken).then(
+      fetchTracker(this.props.fetchOptions, this.props.host, this.props.userId, this.props.rasaToken).then(
         (tracker) => {
           messages = extractMessages(tracker);
           noneRetrieved = (messages.length === 0);

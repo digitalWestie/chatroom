@@ -2,10 +2,15 @@
 import type { TrackerState } from "./DebuggerView";
 import { uuidv4 } from "./utils";
 
-export const fetchTracker = (host:string, userId:string, rasaToken:?string): Promise<TrackerState> => {
+export const fetchTracker = (requestOptions:?Object, host:string, userId:string, rasaToken:?string): Promise<TrackerState> => {
   if (rasaToken) {
+    const fetchOptions = Object.assign({}, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" }
+    }, requestOptions);
+
     return fetch(
-      `${host}/conversations/${userId}/tracker?token=${rasaToken}`
+      `${host}/conversations/${userId}/tracker?token=${rasaToken}`, fetchOptions
     ).then(res => res.json());
   } else {
     throw Error(
@@ -48,4 +53,30 @@ export const extractMessages = (tracker) => {
   }
 
   return messages;
+}
+
+export const appendEvents = (requestOptions:?Object, events:Array<Object>, host:string, userId:string, rasaToken:?string): Promise<TrackerState> => {
+  /*let events = [
+      {
+        "event": "slot",
+        "name": "name of slot",
+        "value": "",
+        "timestamp": new Date() - 0
+      }
+  ]*/
+  const fetchOptions = Object.assign({}, {
+    method: "POST",
+    body: JSON.stringify(events),
+    headers: { "Content-Type": "application/json" }
+  }, requestOptions);
+
+  if (rasaToken) {
+    return fetch(
+      `${this.props.host}/conversations/${this.props.userId}/tracker?token=${this.props.rasaToken}`,
+      fetchOptions).then(res => res.json());
+  } else {
+    throw Error(
+      'Rasa Auth Token is missing or other issue. Start your bot with the REST API enabled and specify an auth token. E.g. --enable_api --cors "*" --auth_token abc'
+    );
+  }
 }
