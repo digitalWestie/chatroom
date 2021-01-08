@@ -76,6 +76,12 @@ export default class ConnectedChatroom extends Component<
     uuid: uuidv4()
   };
 
+  addEvents = (events, cb) => {
+    return appendEvents(events, this.props.fetchOptions, this.props.host, this.props.userId, this.props.rasaToken)
+      .then(cb)
+      .catch((e) => { console.error("Coudldn't append events: ", e); });
+  }
+
   showWelcomeMessage = () => {
     console.log("showing welcome message");
     if (this.props.welcomeMessage) {
@@ -91,11 +97,8 @@ export default class ConnectedChatroom extends Component<
   }
 
   componentDidMount() {
-    const messageDelay = 1800; //delay between message in ms
-    this.messageQueueInterval = window.setInterval(
-      this.queuedMessagesInterval,
-      messageDelay
-    );
+    const messageDelay = 2500; //delay between message in ms
+    this.messageQueueInterval = window.setInterval(this.queuedMessagesInterval, messageDelay);
 
     if (this.props.recoverHistory) {
       let messages = []; let noneRetrieved = false;

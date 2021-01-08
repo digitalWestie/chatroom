@@ -23,7 +23,13 @@ window.chatroom = new window.Chatroom({
   //voiceLang: "en-GB",
   disableForm: false
 });
-window.chatroom.openChat();
+
+const events = [{
+  "event": "slot", "name": "deployment",
+  "value": "local-deployment", "timestamp": new Date() - 0
+}];
+
+window.chatroom.addEvents(events, window.chatroom.openChat)
 </script>
   </body>
 </html>

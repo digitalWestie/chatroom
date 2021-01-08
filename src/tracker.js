@@ -55,15 +55,7 @@ export const extractMessages = (tracker) => {
   return messages;
 }
 
-export const appendEvents = (requestOptions:?Object, events:Array<Object>, host:string, userId:string, rasaToken:?string): Promise<TrackerState> => {
-  /*let events = [
-      {
-        "event": "slot",
-        "name": "name of slot",
-        "value": "",
-        "timestamp": new Date() - 0
-      }
-  ]*/
+export const appendEvents = (events:Array<Object>, requestOptions:?Object, host:string, userId:string, rasaToken:?string): Promise<TrackerState> => {
   const fetchOptions = Object.assign({}, {
     method: "POST",
     body: JSON.stringify(events),
@@ -72,7 +64,7 @@ export const appendEvents = (requestOptions:?Object, events:Array<Object>, host:
 
   if (rasaToken) {
     return fetch(
-      `${this.props.host}/conversations/${this.props.userId}/tracker?token=${this.props.rasaToken}`,
+      `${host}/conversations/${userId}/tracker/events?token=${rasaToken}`,
       fetchOptions).then(res => res.json());
   } else {
     throw Error(
