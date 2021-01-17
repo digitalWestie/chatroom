@@ -60,7 +60,7 @@ export default class ConnectedChatroom extends Component<
 
   static defaultProps = {
     waitingTimeout: 5000,
-    messageBlacklist: ["_restart", "_start", "/restart", "/start"],
+    messageBlacklist: ["_restart", "_start", "/restart", "/start", "/affirm", "/deny"],
     handoffIntent: "handoff"
   };
 
