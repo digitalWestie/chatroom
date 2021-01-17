@@ -97,7 +97,7 @@ export default class ConnectedChatroom extends Component<
   }
 
   componentDidMount() {
-    const messageDelay = 2500; //delay between message in ms
+    const messageDelay = 2900; //delay between message in ms
     this.messageQueueInterval = window.setInterval(this.queuedMessagesInterval, messageDelay);
 
     if (this.props.recoverHistory) {
