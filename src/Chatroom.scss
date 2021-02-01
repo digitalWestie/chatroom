@@ -333,3 +333,26 @@ body {
     width: 49%;
   }
 }
+
+/* CUSTOM QUOTE MESSAGE */
+
+.chat div.text blockquote {
+  width: 100%;
+  margin: 0px;
+  margin-left: 0.5rem;
+  max-width: 98%;
+
+}
+
+
+.chat div.text blockquote span {
+  background-color: rgba(255,255,255,0.8);
+  border-radius: 5px;
+  padding: 10px;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.chat div.text blockquote span:first-of-type {
+  background-color: rgba(255,255,255,0.4);
+}

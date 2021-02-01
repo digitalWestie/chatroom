@@ -30,7 +30,7 @@ type ChatroomOptions = {
 
 const determineSession = () => {
   const urlParams = getAllUrlParams();
-  let sessionUserId = urlParams.sessionId;
+  let sessionUserId = urlParams.sessionUserId;
 
   if (!sessionUserId){
     console.debug("No session id in params, attempt retrieve from storage");
