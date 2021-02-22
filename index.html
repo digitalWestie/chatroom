@@ -11,25 +11,25 @@
     <div class="chat-container"></div>
     <script src="./dist/Chatroom.js"></script>
     <script type="text/javascript">
-window.chatroom = new window.Chatroom({
-  title: "EFFS Dionysus chats",
-  container: document.querySelector(".chat-container"),
-  //welcomeMessage: "Hallo! How can I help you?",
-  startMessage: "Hi!",
-  host: "http://localhost:5005",
-  rasaToken: "mydevelopmentsecret",
-  recoverHistory: true,
-  //speechRecognition: "en-GB",
-  //voiceLang: "en-GB",
-  disableForm: false
-});
+      window.chatroom = new window.Chatroom({
+        title: "My New Chatbot",
+        container: document.querySelector(".chat-container"),
+        //welcomeMessage: "Hallo! How can I help you?",
+        startMessage: "Hi!",
+        host: "http://localhost:5005",
+        rasaToken: "mydevelopmentsecret",
+        recoverHistory: true,
+        //speechRecognition: "en-GB",
+        //voiceLang: "en-GB",
+        disableForm: false
+      });
 
-const events = [{
-  "event": "slot", "name": "deployment",
-  "value": "local-deployment", "timestamp": new Date() - 0
-}];
+      const events = [{
+        "event": "slot", "name": "deployment",
+        "value": "local-deployment", "timestamp": new Date() - 0
+      }];
 
-window.chatroom.addEvents(events, window.chatroom.openChat)
-</script>
+      window.chatroom.addEvents(events, window.chatroom.openChat)
+    </script>
   </body>
 </html>
