@@ -1,11 +1,14 @@
 // @flow
-import type { ChatMessage } from "./Chatroom";
 
+//Polyfills
 import "unfetch/polyfill";
-import "@babel/polyfill";
+import "core-js/stable";
+import "regenerator-runtime/runtime";
+
+//Imports
+import type { ChatMessage } from "./Chatroom";
 import React from "react";
 import ReactDOM from "react-dom";
-
 import Chatroom from "./Chatroom";
 import { noop, sleep, uuidv4, getAllUrlParams } from "./utils";
 import ConnectedChatroom from "./ConnectedChatroom";

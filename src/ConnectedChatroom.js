@@ -1,11 +1,9 @@
 // @flow
 import React, { Component } from "react";
 import type { ElementRef } from "react";
-
 import type { ChatMessage, MessageType } from "./Chatroom";
 import Chatroom from "./Chatroom";
 import { sleep, uuidv4 } from "./utils";
-
 import { fetchTracker, extractMessages, appendEvents } from "./tracker.js";
 
 type ConnectedChatroomProps = {

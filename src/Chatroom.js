@@ -1,5 +1,11 @@
 // @flow
-import "@babel/polyfill";
+
+//Polyfills
+import "unfetch/polyfill";
+import "core-js/stable";
+import "regenerator-runtime/runtime";
+
+//Imports
 import React, { Component, Fragment } from "react";
 import ReactDOM from "react-dom";
 import isEqual from "lodash.isequal";
@@ -7,6 +13,7 @@ import classnames from "classnames";
 
 // $FlowFixMe
 import "./Chatroom.scss";
+import "./Jupiter.scss";
 
 import { uuidv4 } from "./utils";
 import Message, { MessageTime } from "./Message";

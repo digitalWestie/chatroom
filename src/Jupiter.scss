@@ -1,0 +1,86 @@
+$orange: #ff481b;
+$midGrey: #a9afaf;
+$green: #9bad3b;
+$darkGreen: rgba(51, 128, 23, 0.75);
+
+.chatroom { font-size: 18px; }
+.chatroom h3 { border-bottom-color: $darkGreen; }
+
+.chatroom .chats {
+  height: calc(100% - 7.1em);
+
+  .chat {
+    background-color: $darkGreen;
+    color: white;
+    font-size: 1.3rem;
+    border-radius: 1.3rem;
+  }
+}
+
+.chatroom .chats .chat.right { background-color: $orange; }
+
+.chatroom .input {
+
+  button {
+    /*height: 1.5rem;
+    width: 1.5rem;*/
+    box-shadow: none;
+    border: 1px solid $midGrey;
+    padding: 1.4rem;
+    border-radius: 1.3rem;
+    text-align: center;
+    background-repeat: no-repeat;
+    background-size: 90%;
+    background-position: 50%;
+    margin: 0px 2px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-smile'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M8 14s1.5 2 4 2 4-2 4-2'/%3E%3Cline x1='9' y1='9' x2='9.01' y2='9'/%3E%3Cline x1='15' y1='9' x2='15.01' y2='9'/%3E%3C/svg%3E");
+    opacity: 0.6;
+
+    &:hover:enabled { opacity: 1; }
+  }
+
+  input[type="text"], input[type="submit"] {
+    border-radius: 1.5rem;
+    border: 0.1em solid $midGrey;
+    margin: 0px 2px;
+  }
+
+  input[type="text"]:focus:enabled {
+    border: 0.1em solid $orange;
+    background-color: white;
+  }
+
+  input[type="submit"] {
+    /*background-color: $green;
+    color: white;*/
+    background-color: white;
+    color: #333;
+    &:hover:enabled {
+      background: $orange;
+      border: 0.1em solid $orange;
+    }
+  }
+
+  .selector {
+    width: 30vw;
+    height: 30vh;
+    padding: 1rem;
+    border: 1px solid #a9afaf;
+    position: fixed;
+    z-index: 1000;
+    background-color: white;
+    bottom: 4rem;
+    left: 3px;
+    border-radius: 1rem;
+  }
+
+}
+
+/*
+
+import img1 from "./assets/illustrations/134.tif";
+import img2 from "./assets/illustrations/apollo.tif";
+import img3 from "./assets/illustrations/beehives.tif";
+import img4 from "./assets/illustrations/boathouse.tif";
+
+*/

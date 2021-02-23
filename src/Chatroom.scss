@@ -10,10 +10,7 @@ $bubbleColor: $blue;
 $textColor: rgb(28, 28, 28);
 $linkColor: $hotpink;
 $backgroundColor: rgb(250,250,250);
-$orange: #ff481b;
-$green: #9bad3b;
 $grey: rgb(236, 240, 243);
-$midGrey: #a9afaf;
 $darkGrey: #555;
 
 body {
@@ -36,12 +33,8 @@ body {
   overflow: hidden;
   box-sizing: border-box;
   box-shadow: 0 0 0 2px rgba(white, 0.8);
-
-  * {
-    font-family: "Lucida Sans Unicode","Lucida Grande","Lucida Sans",sans-serif;
-    box-sizing: border-box;
-    font-size: 16px;
-  }
+  font-size: 16px;
+  font-family: "Lucida Sans Unicode","Lucida Grande","Lucida Sans",sans-serif;
 
   &.closed {
     height: 60px;
