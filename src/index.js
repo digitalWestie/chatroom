@@ -28,7 +28,8 @@ type ChatroomOptions = {
   voiceLang?: string,
   rasaToken?: string,
   recoverHistory?: boolean,
-  disableForm?: boolean
+  disableForm?: boolean,
+  stickers?: Array
 };
 
 const determineSession = () => {
@@ -69,6 +70,7 @@ window.Chatroom = function(options: ChatroomOptions) {
       voiceLang={options.voiceLang}
       recoverHistory={options.recoverHistory}
       disableForm={options.disableForm}
+      stickers={options.stickers}
     />,
     options.container
   );
@@ -99,6 +101,7 @@ window.DebugChatroom = function(options: ChatroomOptions) {
       voiceLang={options.voiceLang}
       recoverHistory={options.recoverHistory}
       disableForm={options.disableForm}
+      stickers={options.stickers}
     />,
     options.container
   );

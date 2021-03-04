@@ -20,7 +20,8 @@ type ConnectedChatroomProps = {
   voiceLang: ?string,
   rasaToken?: string,
   recoverHistory?: boolean,
-  disableForm?: boolean
+  disableForm?: boolean,
+  stickers?: Array
 };
 
 type ConnectedChatroomState = {
@@ -329,6 +330,7 @@ export default class ConnectedChatroom extends Component<
         voiceLang={this.props.voiceLang}
         disableForm={this.props.disableForm}
         host={this.state.currenthost}
+        stickers={this.props.stickers}
       />
     );
   }

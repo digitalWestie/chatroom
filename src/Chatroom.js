@@ -82,7 +82,8 @@ type ChatroomProps = {
   onSendMessage: (message: string) => *,
   onToggleChat: () => *,
   voiceLang: ?string,
-  disableForm?: boolean
+  disableForm?: boolean,
+  stickers?: Array
 };
 
 type ChatroomState = {
@@ -91,11 +92,13 @@ type ChatroomState = {
 
 export default class Chatroom extends Component<ChatroomProps, ChatroomState> {
   state = {
-    inputValue: ""
+    inputValue: "",
+    showStickerControl: false
   };
   lastRendered: number = 0;
   chatsRef = React.createRef<HTMLDivElement>();
   inputRef = React.createRef<HTMLInputElement>();
+  stickerSelectorRef = React.createRef<HTMLDivElement>();
 
   componentDidMount() {
     this.scrollToBot();
@@ -129,6 +132,12 @@ export default class Chatroom extends Component<ChatroomProps, ChatroomState> {
     const { chatsRef } = this;
     if (chatsRef.current == null) throw new TypeError("chatsRef is null.");
     return ((chatsRef.current: any): HTMLElement);
+  }
+
+  getStickerSelectorRef(): HTMLElement {
+    const { stickerSelectorRef } = this;
+    if (stickerSelectorRef.current == null) throw new TypeError("stickerSelectorRef is null.");
+    return ((stickerSelectorRef.current: any): HTMLElement);
   }
 
   scrollToBot() {
@@ -202,11 +211,16 @@ export default class Chatroom extends Component<ChatroomProps, ChatroomState> {
     }
   };
 
+  toggleStickerSelector = () => {
+    this.setState({ showStickerControl: !this.state.showStickerControl });
+  };
+
   render() {
-    const { messages, isOpen, waitingForBotResponse, voiceLang, disableForm } = this.props;
+    const { messages, isOpen, waitingForBotResponse, voiceLang, disableForm, stickers } = this.props;
     const messageGroups = this.groupMessages(messages);
     const isClickable = i => !waitingForBotResponse && i == messageGroups.length - 1;
     let isButtonMsg, lastMessage = messages[messages.length-1];
+    const hasStickers = ((stickers) && (stickers.length > 0));
     try   { isButtonMsg = lastMessage.message.buttons.length > 0 }
     catch { isButtonMsg = false; }
 
@@ -228,6 +242,16 @@ export default class Chatroom extends Component<ChatroomProps, ChatroomState> {
         </div>
 
         <form className="input" disabled={disableForm} onSubmit={this.handleSubmitMessage}>
+          {hasStickers === true ? (
+            <div className= { this.state.showStickerControl ? "selector active" : "selector" } ref={this.stickerSelectorRef} >
+              <button type="button" onClick={this.toggleStickerSelector}>✕</button>
+              <ul>
+              {stickers.map((imgsrc, i) => (<li key={i} style={{ backgroundImage: `url(${imgsrc})` }}></li>))}
+              </ul>
+            </div>
+          ) : null }
+          {hasStickers === true ? (<button disabled={waitingForBotResponse || isButtonMsg || disableForm} type="button" className="toggle-sticker" onClick={this.toggleStickerSelector} style={{}}></button>) : null}
+
           <input
             disabled={waitingForBotResponse || isButtonMsg || disableForm}
             type="text"
@@ -237,7 +261,7 @@ export default class Chatroom extends Component<ChatroomProps, ChatroomState> {
             }
             ref={this.inputRef}
           />
-          <input type="submit" value="Send" disabled={disableForm} />
+          <input type="submit" value="Send" disabled={waitingForBotResponse || isButtonMsg || disableForm} />
           {this.props.speechRecognition != null ? (
             <SpeechInput
               disableForm={disableForm}

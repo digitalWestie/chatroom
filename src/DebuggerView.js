@@ -31,7 +31,8 @@ type DebuggerViewProps = {
   messageBlacklist?: Array<string>,
   fetchOptions?: RequestOptions,
   rasaToken?: string,
-  disableForm?: boolean
+  disableForm?: boolean,
+  stickers?: Array
 };
 
 type DebuggerViewState = {
@@ -93,6 +94,7 @@ class DebuggerView extends Component<DebuggerViewProps, DebuggerViewState> {
           fetchOptions={this.props.fetchOptions}
           recoverHistory={this.props.recoverHistory}
           disableForm={this.props.disableForm}
+          stickers={this.props.stickers}
         />
         {this.props.rasaToken ? (
           <div className={"data-history"}>
