@@ -232,9 +232,7 @@ export default class Chatroom extends Component<ChatroomProps, ChatroomState> {
             <MessageGroup
               messages={group}
               key={i}
-              onButtonClick={
-                isClickable(i) ? this.handleButtonClick : undefined
-              }
+              onButtonClick={ isClickable(i) ? this.handleButtonClick : undefined }
               voiceLang={voiceLang}
             />
           ))}
@@ -246,7 +244,7 @@ export default class Chatroom extends Component<ChatroomProps, ChatroomState> {
             <div className= { this.state.showStickerControl ? "selector active" : "selector" } ref={this.stickerSelectorRef} >
               <button type="button" onClick={this.toggleStickerSelector}>✕</button>
               <ul>
-              {stickers.map((imgsrc, i) => (<li key={i} style={{ backgroundImage: `url(${imgsrc})` }}></li>))}
+              {stickers.map((s, i) => (<li key={i} data-content={s.content} style={{ backgroundImage: `url(${s.image})` }}></li>))}
               </ul>
             </div>
           ) : null }
