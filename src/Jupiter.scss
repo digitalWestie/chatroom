@@ -58,10 +58,22 @@ $selectorWidth: 66vw;
     color: white;
     font-size: 1.3rem;
     border-radius: 1.3rem;
+
+    // WAITING LOADER
+    &.waiting span {
+      font-size: 1.5rem;
+      height: 1.5rem;
+      width: 1.5rem;
+      display: inline-block;
+    }
+    &.waiting span::before { content: '●'; }
   }
+
+  .chat.right { background-color: $orange; @include leftTransition; }
 }
 
-.chatroom .chats .chat.right { background-color: $orange; @include leftTransition; }
+
+// INPUT CONTROLS
 
 .chatroom .input {
 
@@ -120,7 +132,6 @@ $selectorWidth: 66vw;
 }
 
 /* STICKERS */
-
 
 .chatroom .chats .chat img[src*="#sticker"] {
   background: white;

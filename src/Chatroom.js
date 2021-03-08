@@ -47,7 +47,7 @@ export type ChatMessage = {
 
 const WaitingBubble = () => (
   <li className="chat waiting">
-    <span>●</span> <span>●</span> <span>●</span>
+    <span></span> <span></span> <span></span>
   </li>
 );
 
