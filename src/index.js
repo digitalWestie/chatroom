@@ -29,7 +29,7 @@ type ChatroomOptions = {
   rasaToken?: string,
   recoverHistory?: boolean,
   disableForm?: boolean,
-  stickers?: Array
+  stickers?: Object
 };
 
 const determineSession = () => {

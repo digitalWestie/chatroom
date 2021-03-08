@@ -62,3 +62,20 @@ export function objectToParams(obj) {
   }
   return str;
 }
+
+export function handleShortcodes(stickers, message) {
+  let match;
+  let own = {}.hasOwnProperty;
+  const find = /^:(\+1|[-\w]+):$/g // Line starts and ends with `:`
+
+  match = find.exec(message)
+
+  if (match && own.call(stickers, match[1])) {
+
+    message = `![${stickers[match[1]].alt ? stickers[match[1]].alt : ''}](${
+        stickers[match[1]].image
+      }#sticker${stickers[match[1]].title ? ' "' + stickers[match[1]].title + '"' : ''})`;
+  }
+
+  return message;
+}

@@ -32,7 +32,7 @@ type DebuggerViewProps = {
   fetchOptions?: RequestOptions,
   rasaToken?: string,
   disableForm?: boolean,
-  stickers?: Array
+  stickers?: Object
 };
 
 type DebuggerViewState = {

@@ -5,7 +5,7 @@ import breaks from "remark-breaks";
 import { formatDistance } from "date-fns";
 import classnames from "classnames";
 import type { ChatMessage } from "./Chatroom";
-import { noop } from "./utils";
+import { noop, handleShortcodes } from "./utils";
 
 type MessageTimeProps = {
   time: number,
@@ -29,7 +29,8 @@ export const MessageTime = ({ time, isBot }: MessageTimeProps) => {
 type MessageProps = {
   chat: ChatMessage,
   onButtonClick?: (title: string, payload: string) => void,
-  voiceLang?: ?string
+  voiceLang?: ?string,
+  stickers?: Object
 };
 
 const supportSpeechSynthesis = () => "SpeechSynthesisUtterance" in window;
@@ -43,7 +44,7 @@ const speak = (message: string, voiceLang: string) => {
   synth.speak(toSpeak);
 };
 
-const Message = ({ chat, onButtonClick, voiceLang = null }: MessageProps) => {
+const Message = ({ chat, onButtonClick, voiceLang = null, stickers = null }: MessageProps) => {
   const message = chat.message;
   const isBot = chat.username === "bot";
 
@@ -96,13 +97,15 @@ const Message = ({ chat, onButtonClick, voiceLang = null }: MessageProps) => {
         </li>
       );
     case "text":
+      let txt = handleShortcodes(stickers, message.text);
+
       return (
         <li className={classnames("chat", isBot ? "left" : "right")}>
           <Markdown
             className="text"
-            source={message.text}
+            source={txt}
             skipHtml={false}
-            allowedTypses={[
+            allowedTypes={[
               "root",
               "break",
               "paragraph",

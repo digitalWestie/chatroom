@@ -21,7 +21,7 @@ type ConnectedChatroomProps = {
   rasaToken?: string,
   recoverHistory?: boolean,
   disableForm?: boolean,
-  stickers?: Array
+  stickers?: Object
 };
 
 type ConnectedChatroomState = {
