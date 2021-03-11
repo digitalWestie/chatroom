@@ -133,17 +133,22 @@ export default class ConnectedChatroom extends Component<
     }
   }
 
-  sendMessage = async (messageText: string) => {
-    if (messageText === "") return;
+  sendMessage = async (payload: string, metadata: Object) => {
+    if (payload === "") return;
+
+    let displayText = payload;
+    if ((metadata) && ("displayText" in metadata) && (metadata["displayText"] !== "")) {
+      displayText = metadata["displayText"];
+    }
 
     const messageObj = {
-      message: { type: "text", text: messageText },
+      message: { type: "text", text: displayText },
       time: Date.now(),
       username: this.props.userId,
       uuid: uuidv4()
     };
 
-    if (!this.props.messageBlacklist.includes(messageText) && !messageText.match(this.handoffregex)) {
+    if (!this.props.messageBlacklist.includes(payload) && !payload.match(this.handoffregex)) {
       this.setState({
         // Reveal all queued bot messages when the user sends a new message
         // otherwise, do not show the blacklist messages
@@ -165,8 +170,9 @@ export default class ConnectedChatroom extends Component<
     }, this.props.waitingTimeout);
 
     const rasaMessageObj = {
-      message: messageObj.message.text,
-      sender: this.props.userId
+      message: payload,
+      sender: this.props.userId,
+      metadata: metadata
     };
 
     const fetchOptions = Object.assign({}, {
@@ -285,8 +291,7 @@ export default class ConnectedChatroom extends Component<
   };
 
   handleButtonClick = (buttonTitle: string, payload: string) => {
-    //TODO do something with buttonTitle?
-    this.sendMessage(payload);
+    this.sendMessage(payload, { displayText: buttonTitle });
     if (window.ga != null) {
       window.ga("send", "event", "chat", "chat-button-click");
     }

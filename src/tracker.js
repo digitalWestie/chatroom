@@ -21,7 +21,7 @@ export const fetchTracker = (requestOptions:?Object, host:string, userId:string,
 
 export const extractMessages = (tracker) => {
   let messages = []; let msgDetail = {};
-  let messageObj = {};
+  let messageObj = {}; let displayText = "";
   for (event of tracker.events){
     if (["user", "bot"].includes(event.event)) {
       messageObj = {
@@ -31,8 +31,14 @@ export const extractMessages = (tracker) => {
         message: {}
       }
 
+      if (("displayText" in event.metadata) && (event.metadata["displayText"] !== "")) {
+        displayText = event.metadata["displayText"];
+      } else {
+        displayText = event.text;
+      }
+
       if (event.text){
-        msgDetail = { type: "text", text: event.text };
+        msgDetail = { type: "text", text: displayText };
         messages.push({ ...messageObj, message: msgDetail });
       }
 
