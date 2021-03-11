@@ -61,14 +61,12 @@ const Message = ({ chat, onButtonClick, voiceLang = null, stickers = null }: Mes
 
   switch (message.type) {
     case "locate":
-      console.log("render locate message");
       let hasLocateMessage = (message.locate.message && message.locate.message !== "");
 
       useEffect(() => {
 
         if (onButtonClick) { //onButtonClick should only be defined if this was last message
           // will only run once as in componentDidMount
-          console.log("Search for location")
           let result = {};
           if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
@@ -86,7 +84,7 @@ const Message = ({ chat, onButtonClick, voiceLang = null, stickers = null }: Mes
                 }
                 onButtonClick("Here I am", message.locate.intent + JSON.stringify(result));
               }, (e) => {
-                console.log("Couldnt find location", e)
+                console.error("Couldnt find location", e)
                 onButtonClick("Cant tell you", message.locate.errorIntent);
               });
           } else {
