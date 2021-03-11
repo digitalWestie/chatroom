@@ -60,6 +60,61 @@ const Message = ({ chat, onButtonClick, voiceLang = null, stickers = null }: Mes
   }, []);
 
   switch (message.type) {
+    case "locate":
+      console.log("render locate message");
+      let hasLocateMessage = (message.locate.message && message.locate.message !== "");
+
+      useEffect(() => {
+
+        if (onButtonClick) { //onButtonClick should only be defined if this was last message
+          // will only run once as in componentDidMount
+          console.log("Search for location")
+          let result = {};
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+              (e) => {
+                result = {
+                  "location": {
+                    "accuracy": e.coords.accuracy,
+                    "altitude": e.coords.altitude,
+                    "altitudeAccuracy": e.coords.altitudeAccuracy,
+                    "heading": e.coords.heading,
+                    "latitude": e.coords.latitude,
+                    "longitude": e.coords.longitude,
+                    "speed": e.coords.speed
+                  }
+                }
+                onButtonClick("Here I am", message.locate.intent + JSON.stringify(result));
+              }, (e) => {
+                console.log("Couldnt find location", e)
+                onButtonClick("Cant tell you", message.locate.errorIntent);
+              });
+          } else {
+            console.log("Browser doesnt support geolocation");
+            onButtonClick("Cant tell you", message.locate.errorIntent);
+          }
+        } else {
+          console.log("No button click defined any more");
+        }
+      }, []);
+
+      return (
+        <li className={"locate-container"}>
+          <span className={"locate-indicator"}></span>
+          {hasLocateMessage === true ? (
+            <div className="locate-message">
+            <Markdown
+              source={message.locate.message}
+              skipHtml={false}
+              allowedTypses={["root", "break"]}
+              renderers={{
+                paragraph: ({ children }) => <span>{children}</span>
+              }}
+              plugins={[breaks]}
+            />
+            </div>) : null}
+        </li>
+      );
     case "button":
       return (
         <ul className="chat-buttons">
@@ -89,7 +144,6 @@ const Message = ({ chat, onButtonClick, voiceLang = null, stickers = null }: Mes
           ))}
         </ul>
       );
-
     case "image":
       return (
         <li className={`chat ${isBot ? "left" : "right"} chat-img`}>

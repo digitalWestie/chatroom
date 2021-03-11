@@ -46,8 +46,13 @@ export const extractMessages = (tracker) => {
       } else if (event.data && event.data.attachment) {
         msgDetail = { type: "text", text: event.data.attachment };
         messages.push({ ...messageObj, message: msgDetail });
-      } else if (event.data && event.data.custom) { // && event.data.custom.handoff_host
+      } else if (event.data && event.data.custom && event.data.custom.locate) {
+        msgDetail = { type: "locate", locate: event.data.custom.locate };
+        messages.push({ ...messageObj, message: msgDetail });
+      } else if (event.data && event.data.custom && event.data.custom.handoff_host) {
         console.error("Not yet implemented (handling of custom handoff event)");
+      } else if (event.data && event.data.custom) {
+        console.error("Not yet implemented", event);
       }
     }
   }

@@ -81,15 +81,13 @@ export default class ConnectedChatroom extends Component<
       .catch((e) => { console.error("Coudldn't append events: ", e); });
   }
 
-  showWelcomeMessage = () => {
-    console.log("showing welcome message");
+  showWelcomeMessage = () => { //insert a bot message at start
     if (this.props.welcomeMessage) {
       this.setState({ messages: [this.welcomeMessageObj] });
     }
   }
 
-  sendStartMessage = () => {
-    console.log("start message", this.props.startMessage);
+  sendStartMessage = () => { //sends a message from client to server
     if (this.props.startMessage){
       this.sendMessage(this.props.startMessage);
     }
@@ -239,11 +237,11 @@ export default class ConnectedChatroom extends Component<
         );
       }
 
-      if (message.custom && message.custom.delay) {
+      if (message.custom && message.custom.locate) {
         validMessage = true;
-        expandedMessages.push(
-          this.createNewBotMessage({ type: "delay", delay: message.custom.delay })
-        );
+        expandedMessages.push(this.createNewBotMessage({
+          type: "locate", locate: message.custom.locate
+        }));
       } else if (message.custom && message.custom.handoff_host) {
         validMessage = true;
         this.setState({

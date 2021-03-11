@@ -224,10 +224,10 @@ export default class Chatroom extends Component<ChatroomProps, ChatroomState> {
   render() {
     const { messages, isOpen, waitingForBotResponse, voiceLang, disableForm, stickers } = this.props;
     const messageGroups = this.groupMessages(messages);
-    const isClickable = i => !waitingForBotResponse && i == messageGroups.length - 1;
+    const isClickable = i => !waitingForBotResponse && i == messageGroups.length - 1; //TODO introduce disableForm into this
     let isButtonMsg, lastMessage = messages[messages.length-1];
     const hasStickers = ((stickers) && (Object.keys(stickers).length > 0));
-    try   { isButtonMsg = lastMessage.message.buttons.length > 0 }
+    try   { isButtonMsg = ('locate' in lastMessage.message) || (lastMessage.message.buttons.length > 0) }
     catch { isButtonMsg = false; }
 
     return (

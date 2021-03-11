@@ -79,6 +79,18 @@ body {
       background-color: $hotpink;
     }*/
 
+    li.locate-container {
+      position: relative;
+      list-style: none;
+      float: left;
+      clear: both;
+      margin: 10px 0 0 0;
+
+      .locate-message {
+        text-align: center;
+      }
+    }
+
     .chat {
       position: relative;
       padding: 0.5em 1em;
@@ -461,3 +473,4 @@ body {
   }
 
 }
+
