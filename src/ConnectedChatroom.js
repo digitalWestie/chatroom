@@ -59,7 +59,7 @@ export default class ConnectedChatroom extends Component<
 
   static defaultProps = {
     waitingTimeout: 5000,
-    messageBlacklist: ["_restart", "_start", "/restart", "/start", "/affirm", "/deny"],
+    messageBlacklist: ["/inform", "/restart", "/start", "/affirm", "/deny"],
     handoffIntent: "handoff"
   };
 
@@ -148,7 +148,8 @@ export default class ConnectedChatroom extends Component<
       uuid: uuidv4()
     };
 
-    if (!this.props.messageBlacklist.includes(payload) && !payload.match(this.handoffregex)) {
+    const startsWithBlacklisted = this.props.messageBlacklist.map(b => displayText.startsWith(b)).some((e) => e === true);
+    if (!startsWithBlacklisted && !payload.match(this.handoffregex)) {
       this.setState({
         // Reveal all queued bot messages when the user sends a new message
         // otherwise, do not show the blacklist messages
