@@ -9,6 +9,7 @@ import { fetchTracker, extractMessages, appendEvents } from "./tracker.js";
 type ConnectedChatroomProps = {
   userId: string,
   host: string,
+  channel: string,
   welcomeMessage: ?string,
   startMessage: ?string,
   title: string,
@@ -30,7 +31,8 @@ type ConnectedChatroomState = {
   isOpen: boolean,
   waitingForBotResponse: boolean,
   currenthost: string,
-  currenttitle: string
+  currenttitle: string,
+  currentchannel: string
 };
 
 type RasaMessage =
@@ -54,6 +56,7 @@ export default class ConnectedChatroom extends Component<
     isOpen: false,
     waitingForBotResponse: false,
     currenthost: `${this.props.host}`,
+    currentchannel: `${this.props.channel}`,
     currenttitle: `${this.props.title}`
   };
 
@@ -185,7 +188,7 @@ export default class ConnectedChatroom extends Component<
     }, this.props.fetchOptions);
 
     const response = await fetch(
-      `${this.state.currenthost}/webhooks/rest/webhook`,
+      `${this.state.currenthost}/webhooks/${this.state.currentchannel}/webhook`,
       fetchOptions
     );
     const messages = await response.json();

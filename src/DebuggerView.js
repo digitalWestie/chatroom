@@ -22,6 +22,7 @@ export type TrackerState = {
 type DebuggerViewProps = {
   userId: string,
   host: string,
+  channel: string,
   welcomeMessage: ?string,
   startMessage: ?string,
   title: string,
@@ -86,6 +87,7 @@ class DebuggerView extends Component<DebuggerViewProps, DebuggerViewState> {
           rasaToken={this.props.rasaToken}
           userId={this.props.userId}
           host={this.props.host}
+          channel={this.props.channel || "rest"}
           title={"Chat"}
           speechRecognition={this.props.speechRecognition}
           voiceLang={this.props.voiceLang}
@@ -101,6 +103,9 @@ class DebuggerView extends Component<DebuggerViewProps, DebuggerViewState> {
             <div>
               <p>
                 Bot address: <strong>{this.props.host}</strong>
+              </p>
+              <p>
+                Bot channel: <strong>{this.props.channel}</strong>
               </p>
               <p>
                 Session Id: <strong>{this.props.userId}</strong>
