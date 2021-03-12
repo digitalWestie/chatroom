@@ -64,9 +64,9 @@ const Message = ({ chat, onButtonClick, voiceLang = null, stickers = null }: Mes
       let hasLocateMessage = (message.locate.message && message.locate.message !== "");
 
       useEffect(() => {
-
-        if (onButtonClick) { //onButtonClick should only be defined if this was last message
-          // will only run once as in componentDidMount
+        if (onButtonClick) {
+          //onButtonClick should only be defined if this was last message
+          //useEffect will only run once as if in componentDidMount
           let result = {};
           if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
@@ -82,17 +82,20 @@ const Message = ({ chat, onButtonClick, voiceLang = null, stickers = null }: Mes
                     "speed": e.coords.speed
                   }
                 }
-                onButtonClick("Here I am", message.locate.intent + JSON.stringify(result));
+                onButtonClick(
+                  `[My location](https://www.openstreetmap.org/?mlat=${e.coords.latitude}&mlon=${e.coords.longitude}#map=19/${e.coords.latitude}/${e.coords.longitude})`,
+                  message.locate.intent + JSON.stringify(result)
+                );
               }, (e) => {
                 console.error("Couldnt find location", e)
-                onButtonClick("Cant tell you", message.locate.errorIntent);
+                onButtonClick(message.locate.errorIntent, message.locate.errorIntent);
               });
           } else {
             console.log("Browser doesnt support geolocation");
-            onButtonClick("Cant tell you", message.locate.errorIntent);
+            onButtonClick(message.locate.errorIntent, message.locate.errorIntent);
           }
         } else {
-          console.log("No button click defined any more");
+          console.debug("No need to provide location");
         }
       }, []);
 
