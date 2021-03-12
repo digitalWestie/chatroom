@@ -62,6 +62,7 @@ const Message = ({ chat, onButtonClick, voiceLang = null, stickers = null }: Mes
   switch (message.type) {
     case "locate":
       let hasLocateMessage = (message.locate.message && message.locate.message !== "");
+      let finishedLocating = (!onButtonClick);
 
       useEffect(() => {
         if (onButtonClick) {
@@ -99,23 +100,27 @@ const Message = ({ chat, onButtonClick, voiceLang = null, stickers = null }: Mes
         }
       }, []);
 
-      return (
-        <li className={"locate-container"}>
-          <span className={"locate-indicator"}></span>
-          {hasLocateMessage === true ? (
-            <div className="locate-message">
-            <Markdown
-              source={message.locate.message}
-              skipHtml={false}
-              allowedTypses={["root", "break"]}
-              renderers={{
-                paragraph: ({ children }) => <span>{children}</span>
-              }}
-              plugins={[breaks]}
-            />
-            </div>) : null}
-        </li>
-      );
+      if (finishedLocating) {
+        return null
+      } else {
+        return (
+          <li className={"locate-container"}>
+            <span className={"locate-indicator"}></span>
+            {hasLocateMessage === true ? (
+              <div className="locate-message">
+              <Markdown
+                source={message.locate.message}
+                skipHtml={false}
+                allowedTypses={["root", "break"]}
+                renderers={{
+                  paragraph: ({ children }) => <span>{children}</span>
+                }}
+                plugins={[breaks]}
+              />
+              </div>) : null}
+          </li>
+        )
+      }
     case "button":
       return (
         <ul className="chat-buttons">
