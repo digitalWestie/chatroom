@@ -49,6 +49,9 @@ export const extractMessages = (tracker) => {
       } else if (event.data && event.data.image) {
         msgDetail = { type: "image", image: event.data.image };
         messages.push({ ...messageObj, message: msgDetail });
+      } else if (event.data && event.data.attachment && event.data.attachment.type === "carousel") {
+        msgDetail = { type: "carousel", carousel: event.data.attachment.payload };
+        messages.push({ ...messageObj, message: msgDetail });
       } else if (event.data && event.data.attachment) {
         msgDetail = { type: "text", text: event.data.attachment };
         messages.push({ ...messageObj, message: msgDetail });

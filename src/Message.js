@@ -6,6 +6,7 @@ import { formatDistance } from "date-fns";
 import classnames from "classnames";
 import type { ChatMessage } from "./Chatroom";
 import { noop, handleShortcodes } from "./utils";
+import Carousel from "./Carousel";
 
 type MessageTimeProps = {
   time: number,
@@ -188,6 +189,10 @@ const Message = ({ chat, onButtonClick, voiceLang = null, stickers = null }: Mes
           />
         </li>
       );
+    case "carousel":
+      return (
+        <Carousel carousel={message.carousel} onButtonClick={onButtonClick} />
+      )
     default:
       return null;
   }

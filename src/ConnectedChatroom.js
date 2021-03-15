@@ -239,6 +239,13 @@ export default class ConnectedChatroom extends Component<
         );
       }
 
+      if (message.attachment && message.attachment.type === "carousel") {
+        validMessage = true;
+        expandedMessages.push(
+          this.createNewBotMessage({ type: "carousel", carousel: message.attachment.payload })
+        );
+      }
+
       // probably should be handled with special UI elements
       if (message.attachment) {
         validMessage = true;

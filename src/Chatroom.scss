@@ -476,3 +476,147 @@ body {
 
 }
 
+// CAROUSEL
+li.carousel {
+  clear: both;
+  position: relative;
+  list-style: none;
+}
+
+.carousel-container {
+  clear: both;
+  border-radius: 0.7rem;
+  min-height: 345px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  white-space: nowrap;
+  padding: 0px;
+  margin: 0px;
+  position: relative;
+  display: flex;
+
+  .carousel-card {
+    background: white;
+    display: inline-block;
+    max-width: 450px;
+    width: 33%;
+    min-width: 300px;
+    min-height: 330px;
+    margin: 3px 13px 3px 1px;
+    box-shadow: 4px 3px 12px 1px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+
+    .carousel-card-image {
+      width: 100%;
+      height: 60%;
+      object-fit: cover;
+      display: block;
+      // this is so that it's not empty while loading
+      background-color: silver;
+      cursor: pointer;
+    }
+
+    .carousel-card-title {
+      display: block;
+      margin: 7px 10px 2px 9px;
+      font-weight: 500;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .carousel-card-subtitle {
+      display: block;
+      margin: 0 9px 8px 9px;
+      opacity: 0.5;
+      font-size: 0.8em;
+      overflow: hidden;
+      white-space: normal;
+      line-height: initial;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      min-height: 3.1rem;
+    }
+
+    .carousel-buttons-container {
+      margin-top: 1.2rem;
+      width: 100%;
+      .reply {
+        display: block;
+        border-radius: 0.7rem;
+        border: 1px solid #333;
+        color: #333;
+        padding: 0.3rem 0.2rem;
+        max-width: 77%;
+        text-align: center;
+        cursor: pointer;
+        text-decoration: unset;
+        box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.277);
+        min-height: 1.35rem;
+        font-size: 0.9rem;
+        outline: none;
+        margin: 0 auto;
+        margin-bottom: 0.6rem;
+        &:hover { background-color: #333; color: white; }
+        span {
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
+      }
+    }
+  }
+}
+
+.carousel-arrows-container {
+  top: 0px;
+  min-height: 345px;
+  height: 100%;
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+  position: absolute;
+  pointer-events: none;
+
+  .carousel-arrow {
+    pointer-events: initial;
+    position: absolute;
+    font-size: 3rem;
+    top: 45%;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    outline: none;
+    text-align: center;
+    height: 3rem;
+    width: 3rem;
+    background: white;
+    line-height: 2.5rem;
+    padding: 0px;
+    border-radius: 4rem;
+    box-shadow: 0px 0px 2px #EEE;
+    opacity: 0.8;
+
+    &:hover {
+      top: calc(45% - 3px);
+      opacity: 1;
+    }
+    &:active {
+      top: calc(45% - 2px);
+      opacity: 1;
+    }
+
+    img.arrow {
+      position: absolute;
+      height: 100%;
+      left: 3px;
+    }
+  }
+
+  .left-arrow { left: -15px; }
+  .right-arrow { right: -15px; }
+}
