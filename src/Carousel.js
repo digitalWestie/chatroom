@@ -1,4 +1,4 @@
-import React, { useRef, useState, useContext } from 'react';
+import React, { useLayoutEffect, useRef, useState, useContext } from 'react';
 
 const Carousel = (props) => {
   const scrollContainer = useRef();
@@ -24,6 +24,19 @@ const Carousel = (props) => {
       setRightButton(true);
     }
   };
+
+  useLayoutEffect(() => {
+    const checkButtons = () => {
+      if (scrollContainer.current.clientWidth === scrollContainer.current.scrollWidth) {
+        setLeftButton(false);
+        setRightButton(false);
+      } else {
+        handleScroll();
+      }
+    };
+    window.addEventListener("resize", checkButtons);
+    checkButtons();
+  }, [scrollContainer, setRightButton, setLeftButton, handleScroll]);
 
   const handleLeftArrow = () => {
     scrollContainer.current.scrollTo({
