@@ -8,6 +8,7 @@ const Carousel = (props) => {
   const handleClick = (action) => {
     if (!action || action.type !== 'postback') return;
     const { onButtonClick } = props;
+    if (!onButtonClick) return;
     onButtonClick(action.title, action.payload);
   };
 
@@ -52,7 +53,7 @@ const Carousel = (props) => {
     });
   };
 
-  const { linkTarget, carousel } = props;
+  const { linkTarget, carousel, onButtonClick } = props;
 
   return (
     <React.Fragment>
@@ -121,6 +122,7 @@ const Carousel = (props) => {
                         onClick={() => handleClick(button)}
                         role="button"
                         tabIndex={0}
+                        disabled={((button.type === 'postback') && (!onButtonClick))}
                       >
                         <span>{button.title}</span>
                       </div>
