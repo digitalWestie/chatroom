@@ -244,10 +244,7 @@ export default class ConnectedChatroom extends Component<
         expandedMessages.push(
           this.createNewBotMessage({ type: "carousel", carousel: message.attachment.payload })
         );
-      }
-
-      // probably should be handled with special UI elements
-      if (message.attachment) {
+      } else if (message.attachment) { // probably should be handled with special UI elements
         validMessage = true;
         expandedMessages.push(
           this.createNewBotMessage({ type: "text", text: message.attachment })
@@ -324,10 +321,14 @@ export default class ConnectedChatroom extends Component<
 
     const renderableMessages = messages
       .filter(
-        message =>
-          message.message.type !== "text" || (
-          !this.props.messageBlacklist.includes(message.message.text) &&
-          !message.message.text.match(this.handoffregex) )
+        (message) => {
+          console.log(message);
+          if (message.message.type !== "text") return true;
+          return (
+            !this.props.messageBlacklist.includes(message.message.text) &&
+            !message.message.text.match(this.handoffregex)
+          )
+        }
       )
       .sort((a, b) => a.time - b.time);
 
