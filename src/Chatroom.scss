@@ -373,7 +373,6 @@ body {
   margin: 0px;
   margin-left: 0.5rem;
   max-width: 98%;
-
 }
 
 .chat div.text blockquote span {
@@ -393,7 +392,7 @@ body {
 
 .chatroom .chats .chat img[src*="#sticker"] {
   max-width: 10vw;
-  min-width: 100px;
+  min-width: 150px;
   height:auto;
 }
 
@@ -519,8 +518,7 @@ li.carousel {
       object-fit: cover;
       display: block;
       // this is so that it's not empty while loading
-      background-color: silver;
-      cursor: pointer;
+      background-color: white;
     }
 
     .carousel-card-title {

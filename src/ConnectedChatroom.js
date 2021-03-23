@@ -322,7 +322,6 @@ export default class ConnectedChatroom extends Component<
     const renderableMessages = messages
       .filter(
         (message) => {
-          console.log(message);
           if (message.message.type !== "text") return true;
           return (
             !this.props.messageBlacklist.includes(message.message.text) &&
