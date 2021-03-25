@@ -24,11 +24,11 @@
     <script src="./dist/Chatroom.js"></script>
     <script type="text/javascript">
       window.chatroom = new window.Chatroom({
-        title: "EFFS",
+        title: "Chatbot",
         container: document.querySelector(".chat-container"),
         //welcomeMessage: "Hallo! How can I help you?",
         startMessage: "Hi!",
-        channel: "rest",
+        channel: "inchat",
         host: "http://localhost:5005",
         rasaToken: "mydevelopmentsecret",
         recoverHistory: true,
@@ -39,7 +39,7 @@
 
       const events = [{
         "event": "slot", "name": "deployment",
-        "value": "effs", "timestamp": new Date() - 0
+        "value": "testdeployment", "timestamp": new Date() - 0
       }];
 
       window.chatroom.addEvents(events, window.chatroom.openChat)
