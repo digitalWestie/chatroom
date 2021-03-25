@@ -8,21 +8,30 @@
     <title>Chatroom</title>
   </head>
   <body>
+    <div class="project-meta-container">
+      <div class="project-meta-content">
+        <button class="close" type="button">Close</button>
+
+        <h3>Visual attribution</h3><a href="https://www.freepik.com" title="Freepik">Avatar icon by Freepik </a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+
+        <h3>Powered by</h3>
+        <a rel="noopener noreferrer" target="_blank" href="https://inchat.design/">
+          <img style="max-width: 600px;" src="https://inchat.design/wp-content/uploads/2021/02/cropped-inchat-logogram-alt-3.png" alt="inChat Logo" loading="lazy" />
+        </a>
+      </div>
+    </div>
     <div class="chat-container"></div>
     <script src="./dist/Chatroom.js"></script>
     <script type="text/javascript">
       window.chatroom = new window.Chatroom({
-        title: "Landed Conversations",
+        title: "EFFS",
         container: document.querySelector(".chat-container"),
         //welcomeMessage: "Hallo! How can I help you?",
         startMessage: "Hi!",
-        channel: "inchat",
-        host: "http://localhost:5006",
+        channel: "rest",
+        host: "http://localhost:5005",
         rasaToken: "mydevelopmentsecret",
         recoverHistory: true,
-        stickers: {
-          '134': { image: '/assets/illustrations/134.png' }, 'xth-muse': { image: '/assets/illustrations/xth-muse.png' }, woodshed: { image: '/assets/illustrations/woodshed.png' }, 'weeping-girls': { image: '/assets/illustrations/weeping-girls.png' }, tree: { image: '/assets/illustrations/tree.png' }, 'the-light-pours-out-of-me': { image: '/assets/illustrations/the-light-pours-out-of-me.png' }, 'temple-of-apollo': { image: '/assets/illustrations/temple-of-apollo.png' }, suck: { image: '/assets/illustrations/suck.png' }, 'stone-house': { image: '/assets/illustrations/stone-house.png' }, 'stone-coppice': { image: '/assets/illustrations/stone-coppice.png' }, 'silver-streak': { image: '/assets/illustrations/silver-streak.png' }, signpost: { image: '/assets/illustrations/signpost.png' }, rivers: { image: '/assets/illustrations/rivers.png' }, 'over-here': { image: '/assets/illustrations/over-here.png' }, 'only-connect': { image: '/assets/illustrations/only-connect.png' }, nocturne: { image: '/assets/illustrations/nocturne.png' }, 'moon-landing': { image: '/assets/illustrations/moon-landing.png' }, 'mesostic-remedy-vitrine': { image: '/assets/illustrations/mesostic-remedy-vitrine.png' }, mesostic: { image: '/assets/illustrations/mesostic.png' }, 'love-bomb': { image: '/assets/illustrations/love-bomb.png' }, 'landscape-with-gun': { image: '/assets/illustrations/landscape-with-gun.png' }, jencks: { image: '/assets/illustrations/jencks.png' }, 'in-memory': { image: '/assets/illustrations/in-memory.png' }, 'hare-hill': { image: '/assets/illustrations/hare-hill.png' }, floor: { image: '/assets/illustrations/floor.png' }, claytree: { image: '/assets/illustrations/claytree.png' }, 'cells-of-life': { image: '/assets/illustrations/cells-of-life.png' }, 'bonnington-house': { image: '/assets/illustrations/bonnington-house.png' }, beehives: { image: '/assets/illustrations/beehives.png' }, 'a-forest': { image: '/assets/illustrations/a-forest.png' }
-        },
         //speechRecognition: "en-GB",
         //voiceLang: "en-GB",
         disableForm: false
@@ -30,7 +39,7 @@
 
       const events = [{
         "event": "slot", "name": "deployment",
-        "value": "jupiter-local-deployment", "timestamp": new Date() - 0
+        "value": "effs", "timestamp": new Date() - 0
       }];
 
       window.chatroom.addEvents(events, window.chatroom.openChat)
