@@ -1,4 +1,6 @@
 // @flow
+import EmojiConvertor from 'emoji-js';
+
 export function uuidv4(): string {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
     var r = (Math.random() * 16) | 0,
@@ -69,13 +71,21 @@ export function handleShortcodes(stickers, message) {
   const find = /^:(\+1|[-\w]+):$/g // Line starts and ends with `:`
 
   match = find.exec(message)
-
   if (match && own.call(stickers, match[1])) {
-
     message = `![${stickers[match[1]].alt ? stickers[match[1]].alt : ''}](${
         stickers[match[1]].image
       }#sticker${stickers[match[1]].title ? ' "' + stickers[match[1]].title + '"' : ''})`;
   }
 
-  return message;
+  let emoji = new EmojiConvertor();
+  emoji.replace_mode = 'unified';
+  emoji.allow_native = true;
+  return emoji.replace_colons(message);
+}
+
+export function convertEmojisToShortcodes(message){
+  //Replace unicode to shorcode name e.g. 🎉 -> :tada:
+  let emoji = new EmojiConvertor();
+  emoji.colons_mode = true;
+  return emoji.replace_unified(message);
 }

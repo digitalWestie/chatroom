@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import type { ElementRef } from "react";
 import type { ChatMessage, MessageType } from "./Chatroom";
 import Chatroom from "./Chatroom";
-import { sleep, uuidv4 } from "./utils";
+import { sleep, uuidv4, convertEmojisToShortcodes } from "./utils";
 import { fetchTracker, extractMessages, appendEvents } from "./tracker.js";
 
 type ConnectedChatroomProps = {
@@ -138,6 +138,7 @@ export default class ConnectedChatroom extends Component<
 
   sendMessage = async (payload: string, metadata: Object) => {
     if (payload === "") return;
+    payload = convertEmojisToShortcodes(payload);
 
     let displayText = payload;
     if ((metadata) && ("displayText" in metadata) && (metadata["displayText"] !== "")) {
