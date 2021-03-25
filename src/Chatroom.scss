@@ -19,6 +19,20 @@ body {
   font-family: "Lucida Sans Unicode","Lucida Grande","Lucida Sans",sans-serif;
 }
 
+.project-meta-container {
+  display: none;
+  position: fixed;
+  height: 100vh;
+  width: 100%;
+  z-index: 1000;
+  background-color: white;
+  &.active { display: block; }
+
+  .project-meta-content { padding: 2vw; }
+  img { max-width: 100%; }
+  button.close { position: absolute; top: 2vw; right: 2vw; }
+}
+
 [disabled=""], [disabled=""]:hover {
   cursor: default;
 }
@@ -95,6 +109,10 @@ body {
       .locate-message {
         text-align: center;
       }
+    }
+
+    span.bot-avatar {
+      text-decoration: none;
     }
 
     .chat {
@@ -194,13 +212,18 @@ body {
       }
     }
 
-    .time {
+    .avatar, .time {
       list-style: none;
       clear: both;
-      height: 10px;
       font-size: 0.7em;
       color: desaturate($textColor, 50%);
       margin: 5px 0 20px 0;
+
+      span.bot-avatar + span.sent {
+        top: 1.8rem;
+        position: relative;
+        vertical-align: top;
+      }
 
       &.left {
         float: left;

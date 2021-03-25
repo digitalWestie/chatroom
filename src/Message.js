@@ -12,18 +12,22 @@ type MessageTimeProps = {
   time: number,
   isBot: boolean
 };
+
 export const MessageTime = ({ time, isBot }: MessageTimeProps) => {
   if (time === 0) return null;
 
   const messageTime = Math.min(Date.now(), time);
   const messageTimeObj = new Date(messageTime);
   return (
+    <React.Fragment>
     <li
       className={classnames("time", isBot ? "left" : "right")}
       title={messageTimeObj.toISOString()}
     >
-      {formatDistance(messageTimeObj, Date.now())}
+      { isBot ? (<span className="bot-avatar"></span>) : (null) }
+      <span className="sent"> Sent {formatDistance(messageTimeObj, Date.now())} ago</span>
     </li>
+    </React.Fragment>
   );
 };
 
