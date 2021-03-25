@@ -13,7 +13,7 @@ import classnames from "classnames";
 
 // $FlowFixMe
 import "./Chatroom.scss";
-//import "./Jupiter.scss";
+import "./Jupiter.scss";
 
 import { uuidv4 } from "./utils";
 import Message, { MessageTime } from "./Message";
