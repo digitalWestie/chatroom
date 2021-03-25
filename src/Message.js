@@ -164,6 +164,7 @@ const Message = ({ chat, onButtonClick, voiceLang = null, stickers = null }: Mes
     case "text":
       let txt = handleShortcodes(stickers, message.text);
 
+      console.log(txt);
       return (
         <li className={classnames("chat", isBot ? "left" : "right")}>
           <Markdown
@@ -173,6 +174,7 @@ const Message = ({ chat, onButtonClick, voiceLang = null, stickers = null }: Mes
             allowedTypes={[
               "root",
               "break",
+              "blockquote",
               "paragraph",
               "emphasis",
               "strong",
