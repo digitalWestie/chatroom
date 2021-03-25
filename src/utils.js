@@ -70,6 +70,7 @@ export function handleShortcodes(stickers, message) {
   let own = {}.hasOwnProperty;
   const find = /^:(\+1|[-\w]+):$/g // Line starts and ends with `:`
 
+  if ((stickers === null) || (stickers === undefined)){ stickers = {} }
   match = find.exec(message)
   if (match && own.call(stickers, match[1])) {
     message = `![${stickers[match[1]].alt ? stickers[match[1]].alt : ''}](${
@@ -80,6 +81,7 @@ export function handleShortcodes(stickers, message) {
   let emoji = new EmojiConvertor();
   emoji.replace_mode = 'unified';
   emoji.allow_native = true;
+
   return emoji.replace_colons(message);
 }
 
