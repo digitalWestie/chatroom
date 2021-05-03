@@ -95,6 +95,10 @@ const Message = ({ chat, onButtonClick, voiceLang = null, stickers = null }: Mes
               }, (e) => {
                 console.error("Couldnt find location", e)
                 onButtonClick(message.locate.errorIntent, message.locate.errorIntent);
+              }, {
+                enableHighAccuracy: true,
+                timeout: 5000,
+                maximumAge: 0
               });
           } else {
             console.log("Browser doesnt support geolocation");

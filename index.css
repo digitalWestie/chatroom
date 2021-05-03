@@ -27,7 +27,7 @@
   url("assets/fonts/c446362802681bacaacbad0f39bfc1a5.svg#Suisse Intl Medium") format("svg"); /* iOS 4.1- */
 }
 
-.chatroom { font-size: 18px; }
+.chatroom { font-size: 16px; }
 .chatroom, input, button { font-family: "Suisse Intl Medium", sans-serif; }
 
 div.chats {
