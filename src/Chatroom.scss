@@ -12,7 +12,7 @@ $linkColor: $hotpink;
 $backgroundColor: rgb(250,250,250);
 $grey: rgb(236, 240, 243);
 $darkGrey: #555;
-$selectorWidth: 66vw;
+$selectorWidth: 90vw;
 
 body {
   margin: 0; padding: 0;
@@ -484,8 +484,8 @@ body {
       padding: 0;
       list-style: none;
       display: inline-block;
-      min-width: 8rem;
-      min-height: 6rem;
+      min-width: 6rem;
+      min-height: 5rem;
       height: calc(10vh + 2vw);
       width: 22%;
       margin: 1%;
