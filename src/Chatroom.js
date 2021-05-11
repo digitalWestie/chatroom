@@ -234,7 +234,7 @@ export default class Chatroom extends Component<ChatroomProps, ChatroomState> {
     catch { isButtonMsg = false; }
 
     return (
-      <div className={classnames("chatroom", isOpen ? "open" : "closed")}>
+      <div className={classnames("jupiter chatroom", isOpen ? "open" : "closed")}>
         <h3 onClick={this.props.onToggleChat}>{this.props.title}</h3>
         <div className="chats" ref={this.chatsRef}>
           {messageGroups.map((group, i) => (
