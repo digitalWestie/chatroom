@@ -76,7 +76,7 @@ const Carousel = (props) => {
                     <img
                       className="carousel-card-image"
                       src={carouselCard.image_url}
-                      alt={`${carouselCard.title} ${carouselCard.subtitle}}}`}
+                      alt={`${carouselCard.title} ${carouselCard.subtitle}`}
                     />
                   ) : (
                     <div className="carousel-card-image" />
