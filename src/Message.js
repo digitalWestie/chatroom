@@ -8,15 +8,6 @@ import type { ChatMessage } from "./Chatroom";
 import { noop, handleShortcodes, getAllUrlParams } from "./utils";
 import Carousel from "./Carousel";
 
-const oldLocalMap = {
-  top: 55.96704361504013,
-  left: -3.168021440505982,
-  right: -3.1590628623962407,
-  bottom: 55.96435646138302,
-  latPixel: 0.0000019003915538285598,
-  lngPixel: 0.0000033959735063461756
-};
-
 const localMap = {
   "top":55.96995573846374,
   "left":-3.168182373046875,
@@ -24,7 +15,7 @@ const localMap = {
   "right":-3.15032958984375,
   "latPixel":3.0024041106559784e-06,
   "lngPixel":5.364418029785156e-06,
-  "image": "/assets/local-map.png"
+  "backgroundImage": 'url("/assets/local-map.png"), url("/static/jupiter/assets/local-map.png")'
 }
 
 const jupiterMap = {
@@ -34,7 +25,7 @@ const jupiterMap = {
   "right":-3.41400146484375,
   "latPixel":3.007177043730002e-06,
   "lngPixel":5.364418029785156e-06,
-  "image": "/assets/jupiter-map.png"
+  "backgroundImage": 'url("/assets/jupiter-map.png"), url("/static/jupiter/assets/jupiter-map.png")'
 }
 
 type MessageTimeProps = {
@@ -103,34 +94,16 @@ const Message = ({ chat, onButtonClick, voiceLang = null, stickers = null }: Mes
           //onButtonClick should only be defined if this was last message
           //useEffect will only run once as if in componentDidMount
 
-          let retries = 3;
-          let result;
           const geolocationOptions = {
             enableHighAccuracy: true,
             timeout: 10000,
             maximumAge: 0
           };
 
-          const submitResult = (result) => {
-            onButtonClick(
-              `[My location](https://www.openstreetmap.org/?mlat=${result.location.latitude}&mlon=${result.location.longitude}#map=19/${result.location.latitude}/${result.location.longitude})`,
-              message.locate.intent + JSON.stringify(result)
-            );
-          };
-
-          const unableToLocate = (e) => {
-            console.error("Couldn't find location", e);
-            const hasRecentResult = (((new Date - 0) - result.timestamp)/1000 <= 20);
-            if (hasRecentResult) {
-              console.log("Using a recent result", result);
-              submitResult(result);
-            } else {
-              onButtonClick(message.locate.errorIntent, message.locate.errorIntent);
-            }
-          };
-
-          const retrievedLocation = (e) => {
-            result = {
+          const positionUpdateCb = (e) => {
+            console.log("Position", e);
+            if (window.positionHistory === undefined) { window.positionHistory = []; }
+            window.positionHistory.push({
               "location": {
                 "accuracy": e.coords.accuracy,
                 "altitude": e.coords.altitude,
@@ -141,24 +114,50 @@ const Message = ({ chat, onButtonClick, voiceLang = null, stickers = null }: Mes
                 "speed": e.coords.speed
               },
               "timestamp": new Date - 0
-            };
+            });
+            if (window.positionHistory.length > 5) { window.positionHistory.shift(); }
+          };
 
-            retries--;
-            console.log("Number of retries", retries, "accuracy", result.location.accuracy);
-            if ((result.location.accuracy < 20.0) || (retries === 0)) {
-              submitResult(result);
+          const positionError = (e) => { console.error("Position error", e); }
+
+          const checkLatestPosition = (retry) => {
+            if (window.positionHistory === undefined) { //no position history, (yet)
+              if ((retry) && (window.watchId !== undefined)) {
+                setTimeout(checkLatestPosition, 6000, false); //try again
+                return;
+              } else {
+                onButtonClick(message.locate.errorIntent, message.locate.errorIntent);
+                return;
+              }
+            }
+
+            let timeFiltered   = window.positionHistory.filter(p => (((new Date - 0) - p.timestamp)/1000 <= 40));
+            let accuracySorted = timeFiltered.sort((a, b) => { return a.location.accuracy - b.location.accuracy; });
+            // accuracyFiltered = window.positionHistory.filter(p => p.location.accuracy < 20.0);
+
+            console.log("Time filtered", timeFiltered);
+            console.log("Sorted", accuracySorted);
+
+            if (accuracySorted.length > 0) {
+              const result = accuracySorted[0];
+              onButtonClick(
+                `[My location](https://www.openstreetmap.org/?mlat=${result.location.latitude}&mlon=${result.location.longitude}#map=19/${result.location.latitude}/${result.location.longitude})`,
+                message.locate.intent + JSON.stringify(result)
+              );
             } else {
-              console.log("Accuracy not enough, retrying", e);
-              navigator.geolocation.getCurrentPosition(retrievedLocation, unableToLocate, geolocationOptions);
+              console.error("No good positions");
+              onButtonClick(message.locate.errorIntent, message.locate.errorIntent);
             }
           };
 
-          if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(retrievedLocation, unableToLocate, geolocationOptions);
-          } else {
-            console.log("Browser doesnt support geolocation");
-            onButtonClick(message.locate.errorIntent, message.locate.errorIntent);
+          if (window.watchId === undefined) {
+            //Trigger location watching if it hasn't already started
+            console.log("Start watching position");
+            window.watchId = navigator.geolocation.watchPosition(positionUpdateCb, positionError, geolocationOptions);
+            if (window.watchId = undefined){ window.watchId = 1; } // handle empty return as in some browsers (TODO: research this)
           }
+
+          setTimeout(checkLatestPosition, 6000, true);
         } else {
           console.debug("No need to provide location");
         }
@@ -259,7 +258,7 @@ const Message = ({ chat, onButtonClick, voiceLang = null, stickers = null }: Mes
         customStyle["backgroundPositionY"] = (centering[0] * -1) + sizing/2;
         customStyle["backgroundPositionX"] = (centering[1] * -1) + sizing/2;
         customStyle["backgroundSize"] = "unset";
-        customStyle["backgroundImage"] = 'url("'+ mapDetails.image +'")';
+        customStyle["backgroundImage"] = mapDetails.backgroundImage;
         return customStyle;
       }
 
