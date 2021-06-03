@@ -131,15 +131,20 @@ const Message = ({ chat, onButtonClick, voiceLang = null, stickers = null }: Mes
               }
             }
 
-            let timeFiltered   = window.positionHistory.filter(p => (((new Date - 0) - p.timestamp)/1000 <= 40));
-            let accuracySorted = timeFiltered.sort((a, b) => { return a.location.accuracy - b.location.accuracy; });
-            // accuracyFiltered = window.positionHistory.filter(p => p.location.accuracy < 20.0);
+            let timeFiltered = window.positionHistory.filter(p => (((new Date - 0) - p.timestamp)/1000 <= 45));
+
+            const determineScore = (p) => {
+              // a combined time and accuracy score, based on 80/20 principle, time is most important
+              return ((1+(((new Date - 0) - p.timestamp)/1000)) * 1.8) * ((1+p.location.accuracy) * 1.2);
+            };
+
+            let scoreSorted = timeFiltered.sort((a, b) => { return determineScore(a) - determineScore(b) });
 
             console.log("Time filtered", timeFiltered);
-            console.log("Sorted", accuracySorted);
+            console.log("Sorted", scoreSorted);
 
-            if (accuracySorted.length > 0) {
-              const result = accuracySorted[0];
+            if (scoreSorted.length > 0) {
+              const result = scoreSorted[0];
               onButtonClick(
                 `[My location](https://www.openstreetmap.org/?mlat=${result.location.latitude}&mlon=${result.location.longitude}#map=19/${result.location.latitude}/${result.location.longitude})`,
                 message.locate.intent + JSON.stringify(result)
