@@ -69,7 +69,7 @@ const speak = (message: string, voiceLang: string) => {
   synth.speak(toSpeak);
 };
 
-const Message = ({ chat, onButtonClick, voiceLang = null, stickers = null }: MessageProps) => {
+const Message = React.memo(({ chat, onButtonClick, voiceLang = null, stickers = null }: MessageProps) => {
   const message = chat.message;
   const isBot = chat.username === "bot";
 
@@ -307,6 +307,6 @@ const Message = ({ chat, onButtonClick, voiceLang = null, stickers = null }: Mes
     default:
       return null;
   }
-};
+});
 
 export default Message;
