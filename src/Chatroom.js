@@ -156,6 +156,7 @@ export default class Chatroom extends Component<ChatroomProps, ChatroomState> {
     const message = this.getInputRef().value.trim();
     this.props.onSendMessage(message);
     this.setState({ inputValue: "" });
+    this.getInputRef().value = "";
   };
 
   handleButtonClick = (message: string, payload: string) => {
@@ -198,18 +199,14 @@ export default class Chatroom extends Component<ChatroomProps, ChatroomState> {
     return groups;
   }
 
-  handleInputChange = async (
-    inputValue: string,
-    scrollToEnd: boolean = false
-  ) => {
-    await this.setState({
-      inputValue
+  handleInputChange = (inputValue: string, scrollToEnd: boolean = false) => {
+    this.setState({ inputValue }, () => {
+      if (scrollToEnd) {
+        const inputRef = this.getInputRef();
+        inputRef.focus();
+        inputRef.scrollLeft = inputRef.scrollWidth;
+      }
     });
-    if (scrollToEnd) {
-      const inputRef = this.getInputRef();
-      inputRef.focus();
-      inputRef.scrollLeft = inputRef.scrollWidth;
-    }
   };
 
   toggleStickerSelector = () => {
@@ -265,10 +262,6 @@ export default class Chatroom extends Component<ChatroomProps, ChatroomState> {
           <input
             disabled={waitingForBotResponse || isButtonMsg || disableForm}
             type="text"
-            value={this.state.inputValue}
-            onChange={event =>
-              this.handleInputChange(event.currentTarget.value)
-            }
             ref={this.inputRef}
           />
           <input type="submit" value="Send" disabled={waitingForBotResponse || isButtonMsg || disableForm} />
