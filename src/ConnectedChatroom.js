@@ -139,6 +139,7 @@ export default class ConnectedChatroom extends Component<
   sendMessage = async (payload: string, metadata: Object) => {
     if (payload === "") return;
     payload = convertEmojisToShortcodes(payload);
+    if (payload.length <= 1) return;
 
     let displayText = payload;
     if ((metadata) && ("displayText" in metadata) && (metadata["displayText"] !== "")) {
