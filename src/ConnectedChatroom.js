@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import type { ElementRef } from "react";
 import type { ChatMessage, MessageType } from "./Chatroom";
 import Chatroom from "./Chatroom";
+import Splash from "./Splash";
 import { sleep, uuidv4, convertEmojisToShortcodes } from "./utils";
 import { fetchTracker, extractMessages, appendEvents } from "./tracker.js";
 
@@ -54,6 +55,8 @@ export default class ConnectedChatroom extends Component<
     messages: [],
     messageQueue: [],
     isOpen: false,
+    showSplash: true,
+    showConsentForm: false,
     waitingForBotResponse: false,
     currenthost: `${this.props.host}`,
     currentchannel: `${this.props.channel}`,
@@ -84,19 +87,13 @@ export default class ConnectedChatroom extends Component<
       .catch((e) => { console.error("Coudldn't append events: ", e); });
   }
 
-  showWelcomeMessage = () => { //insert a bot message at start
-    if (this.props.welcomeMessage) {
-      this.setState({ messages: [this.welcomeMessageObj] });
-    }
-  }
-
   sendStartMessage = () => { //sends a message from client to server
     if (this.props.startMessage){
       this.sendMessage(this.props.startMessage);
     }
   }
 
-  componentDidMount() {
+  launchChat = () => {
     const messageDelay = 2900; //delay between message in ms
     this.messageQueueInterval = window.setInterval(this.queuedMessagesInterval, messageDelay);
 
@@ -110,19 +107,37 @@ export default class ConnectedChatroom extends Component<
           noneRetrieved = (messages.length === 0);
         }).catch((e) => {
           console.error("Coudldn't recover message history: ", e);
-        }).then(() => {
-          if (this.props.welcomeMessage){
-            if (!noneRetrieved){ this.welcomeMessageObj.time = (messages[0].time-1); } //make sure earliest msg
-            messages.push(this.welcomeMessageObj);
-          }
+        })
+        .then(() => {
           this.setState({ messages: messages, waitingForBotResponse: false });
-          if (noneRetrieved) { console.log("nothing retrieved send start msg"); this.sendStartMessage(); }
+          if (noneRetrieved) {
+            this.showConsentForm();
+          } else {
+            this.hideSplash();
+          }
         });
-
     } else {
-      this.showWelcomeMessage();
       this.sendStartMessage();
     }
+  }
+
+  showConsentForm = () => {
+    this.setState({ showConsentForm: true });
+  }
+
+  hideSplash = () => {
+    this.setState({ showSplash: false });
+  }
+
+  completeConsent = () => {
+    console.log("complete consent and splash");
+    this.setState({ showConsentForm: false });
+    this.hideSplash();
+    this.sendStartMessage();
+  }
+
+  componentDidMount() {
+    setTimeout(this.launchChat, 3000);
   }
 
   componentWillUnmount() {
@@ -318,7 +333,7 @@ export default class ConnectedChatroom extends Component<
   };
 
   render() {
-    const { messages, waitingForBotResponse } = this.state;
+    const { messages, waitingForBotResponse, showSplash } = this.state;
 
     const renderableMessages = messages
       .filter(
@@ -332,22 +347,26 @@ export default class ConnectedChatroom extends Component<
       )
       .sort((a, b) => a.time - b.time);
 
-    return (
-      <Chatroom
-        messages={renderableMessages}
-        title={this.state.currenttitle}
-        waitingForBotResponse={waitingForBotResponse}
-        isOpen={this.state.isOpen}
-        speechRecognition={this.props.speechRecognition}
-        onToggleChat={this.handleToggleChat}
-        onButtonClick={this.handleButtonClick}
-        onSendMessage={this.sendMessage}
-        ref={this.chatroomRef}
-        voiceLang={this.props.voiceLang}
-        disableForm={this.props.disableForm}
-        host={this.state.currenthost}
-        stickers={this.props.stickers}
-      />
-    );
+    if (showSplash) {
+      return (<Splash showConsentForm={this.state.showConsentForm} completeConsent={this.completeConsent} />)
+    } else {
+      return (
+        <Chatroom
+          messages={renderableMessages}
+          title={this.state.currenttitle}
+          waitingForBotResponse={waitingForBotResponse}
+          isOpen={this.state.isOpen}
+          speechRecognition={this.props.speechRecognition}
+          onToggleChat={this.handleToggleChat}
+          onButtonClick={this.handleButtonClick}
+          onSendMessage={this.sendMessage}
+          ref={this.chatroomRef}
+          voiceLang={this.props.voiceLang}
+          disableForm={this.props.disableForm}
+          host={this.state.currenthost}
+          stickers={this.props.stickers}
+        />
+      );
+    }
   }
 }

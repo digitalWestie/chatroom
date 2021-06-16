@@ -232,8 +232,8 @@ export default class Chatroom extends Component<ChatroomProps, ChatroomState> {
 
     return (
       <div className={classnames("jupiter chatroom", isOpen ? "open" : "closed")}>
-        <header class="">
-          <h1 class="logo">juno</h1>
+        <header className="">
+          <h1 className="logo">juno</h1>
         </header>
         <div className="chats" ref={this.chatsRef}>
           {messageGroups.map((group, i) => (
