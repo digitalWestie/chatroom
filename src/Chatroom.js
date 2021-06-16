@@ -248,7 +248,7 @@ export default class Chatroom extends Component<ChatroomProps, ChatroomState> {
           {waitingForBotResponse ? <WaitingBubble /> : null}
         </div>
 
-        <form className="input" disabled={disableForm} onSubmit={this.handleSubmitMessage}>
+        <form className="input-controls" disabled={disableForm} onSubmit={this.handleSubmitMessage}>
           {hasStickers === true ? (
             <div className= { this.state.showStickerControl ? "selector active" : "selector" } ref={this.stickerSelectorRef} >
               <button type="button" onClick={this.toggleStickerSelector}>✕</button>
