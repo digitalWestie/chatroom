@@ -232,7 +232,9 @@ export default class Chatroom extends Component<ChatroomProps, ChatroomState> {
 
     return (
       <div className={classnames("jupiter chatroom", isOpen ? "open" : "closed")}>
-        <h3 onClick={this.props.onToggleChat}>{this.props.title}</h3>
+        <header class="">
+          <h1 class="logo">juno</h1>
+        </header>
         <div className="chats" ref={this.chatsRef}>
           {messageGroups.map((group, i) => (
             <MessageGroup
