@@ -1,25 +1,46 @@
 import React, { Component, Fragment } from "react";
 
 export default class Splash extends Component {
-  state = {};
+  state = {
+    endSplash: false,
+    disable: false
+  };
 
-  componentDidMount() {
-    // wait then fadeout image
-    // wait then fadeout logo in middle
-    // wait then tweak the line background, then show form
+  componentDidMount() {}
+
+  endSplash = () => {
+    this.setState({ endSplash: true, disable: true });
+    setTimeout(this.props.completeConsent, 1800);
+  }
+
+  refuse = () => {
+    this.setState({ endSplash: true, disable: true });
+    setTimeout(() => { window.location = "https://www.jupiterartland.org"; }, 1800);
   }
 
   render() {
-    console.log("show consent", this.props.showConsentForm);
+    let klass = "splash";
+    if (this.state.endSplash){ klass = klass + " end-splash" }
+
     return (
-      <div className="splash">
-        <h1 className="logo">juno</h1>
-        {this.props.showConsentForm ? (
+      <div className={klass}>
+        <div className="splash-hills">
+          <h1 className="logo">juno</h1>
+        </div>
+        { this.props.showConsentForm ? (
           <div className="consent-form">
-            <h2>Consent</h2>
-            <p>Before we get started, are you ok with the following?</p>
-            <p>We use location data to help you navigate Jupiter Artland. We store your progress with Juno so that we can continue the conversation later. We also use this data to help improve visitor experience.</p>
-            <button onClick={this.props.completeConsent}>OK</button>
+            <div className="avatar">
+              <span className="bot-avatar"></span>
+            </div>
+            <div className="content">
+              <h2>Privacy & Consent</h2>
+              <p>Before we get started, confirm you are ok with the following?</p>
+              <ul><li>We use location data to help you navigate Jupiter Artland.</li>
+              <li>We store your progress with Juno so that we can continue the conversation later.</li>
+              <li>We also use this data to help improve visitor experience.</li></ul>
+              <button disabled={this.state.disable} className="agree" onClick={this.endSplash}>OK let's continue</button>
+              <button disabled={this.state.disable} onClick={this.refuse}>Not today</button>
+            </div>
           </div>
         ) : null}
       </div>

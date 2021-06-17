@@ -111,12 +111,16 @@ export default class ConnectedChatroom extends Component<
         .then(() => {
           this.setState({ messages: messages, waitingForBotResponse: false });
           if (noneRetrieved) {
+            //new session, confirm consent
             this.showConsentForm();
           } else {
+            //restore from previous session
             this.hideSplash();
           }
         });
     } else {
+      //confirm consent as we're not sure if new session or not
+      this.showConsentForm();
       this.sendStartMessage();
     }
   }
@@ -137,7 +141,7 @@ export default class ConnectedChatroom extends Component<
   }
 
   componentDidMount() {
-    setTimeout(this.launchChat, 3000);
+    setTimeout(this.launchChat, 1000);
   }
 
   componentWillUnmount() {
