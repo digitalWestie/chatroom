@@ -234,6 +234,7 @@ div.jupiter.chatroom {
     background-image: url("../assets/splash-lines.svg");
     width: 100%;
     position: absolute;
+    pointer-events:none;
     background-size: cover;
     background-position-x: center;
     opacity: 0.2;
