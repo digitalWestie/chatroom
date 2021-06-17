@@ -93,6 +93,12 @@ $textColour: #333;
   color: white;
 }
 
+@mixin variedGradient {
+  background: $lightPurple;
+  background: linear-gradient(50deg, $darkPurple 0%, $lightPurple 80%);
+  color: white;
+}
+
 div.splash {
   background-image: url("../assets/splash-lines.svg");
   background-repeat: no-repeat;
@@ -239,6 +245,11 @@ div.jupiter.chatroom {
     .locate-message { color: white; }
   }
 
+  li.chat.waiting {
+    margin-top: 0px;
+    top: -10px;
+  }
+
   .chat {
     opacity: 1;
     @include slowTransition;
@@ -246,29 +257,6 @@ div.jupiter.chatroom {
     color: $textColour;
     box-shadow: none;
     border-radius: 1.3rem;
-
-    // WAITING LOADER
-    &.waiting { box-shadow: none; }
-    &.waiting span {
-      height: 2.5rem;
-      width: 4.5rem;
-      display: inline-block;
-      background-color: transparent;
-      filter: hue-rotate(120deg);
-    }
-    &.waiting span:nth-child(odd)  {
-      //filter: hue-rotate(35deg);
-    }
-    &.waiting span::before {
-      content: "";
-      opacity: 0.6;
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8' standalone='no'%3F%3E%3C!-- Created with Inkscape (http://www.inkscape.org/) --%3E%3Csvg xmlns:dc='http://purl.org/dc/elements/1.1/' xmlns:cc='http://creativecommons.org/ns%23' xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns%23' xmlns:svg='http://www.w3.org/2000/svg' xmlns='http://www.w3.org/2000/svg' xmlns:sodipodi='http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd' xmlns:inkscape='http://www.inkscape.org/namespaces/inkscape' version='1.1' id='svg2' width='200' height='62' viewBox='0 0 200 62' sodipodi:docname='leaf.svg' inkscape:version='0.92.5 (2060ec1f9f, 2020-04-08)'%3E%3Cmetadata id='metadata8'%3E%3Crdf:RDF%3E%3Ccc:Work rdf:about=''%3E%3Cdc:format%3Eimage/svg+xml%3C/dc:format%3E%3Cdc:type rdf:resource='http://purl.org/dc/dcmitype/StillImage' /%3E%3Cdc:title%3E%3C/dc:title%3E%3C/cc:Work%3E%3C/rdf:RDF%3E%3C/metadata%3E%3Cdefs id='defs6' /%3E%3Csodipodi:namedview pagecolor='%23ffffff' bordercolor='%23666666' borderopacity='1' objecttolerance='10' gridtolerance='10' guidetolerance='10' inkscape:pageopacity='0' inkscape:pageshadow='2' inkscape:window-width='1920' inkscape:window-height='1016' id='namedview4' showgrid='false' inkscape:zoom='1.735' inkscape:cx='209.4433' inkscape:cy='4.1615459' inkscape:window-x='0' inkscape:window-y='27' inkscape:window-maximized='1' inkscape:current-layer='svg2' /%3E%3Cpath style='fill:%23ffffff;fill-opacity:1' d='m 195.48376,60.748331 c -1.07904,-1.745928 -12.21789,-6.451757 -19.42317,-8.205706 -12.30599,-2.995593 -23.94367,-3.960265 -40,-3.315684 -8.525,0.342236 -17.75,1.102658 -20.5,1.689826 -2.75,0.587168 -10.175,1.105607 -16.5,1.152088 C 86.258257,52.162936 76.485931,50.408098 66.676286,46.253532 57.6108,42.414131 56.340076,42.387994 48.666558,45.883101 38.992917,50.289215 26.99882,52.24866 17.656077,50.949204 8.1044248,49.620692 1.0605929,46.632179 1.0605929,43.908178 c 0,-2.828093 3.7294243,-6.360625 5.8273187,-5.519671 9.6081894,3.851502 22.1495164,5.118086 30.2158684,3.051581 9.570734,-2.451908 10.956814,-3.646267 10.956814,-9.441278 0,-10.769257 5.589451,-18.052985 18.594921,-24.2314223 11.087731,-5.267386 18.598066,-6.919566 34.405075,-7.56868697 23.55711,-0.967383 40.20451,4.17590997 63.1003,19.49514627 16.70981,11.180285 33.8997,31.162333 33.8997,39.406042 0,2.827653 -1.32441,3.6749 -2.57683,1.648442 z M 169.06059,39.307572 c 0,-0.803693 -13.34082,-6.788099 -20.74205,-9.304442 -18.22831,-6.197436 -45.19033,-8.832651 -63.291179,-6.185958 -9.192117,1.344065 -25.713947,6.401101 -27.855226,8.525986 -1.181911,1.172862 -0.767544,1.545023 2.785474,2.501751 3.634676,0.978717 5.10602,0.8078 11.388458,-1.322925 11.160394,-3.785111 22.457743,-5.03082 39.379023,-4.342151 19.18951,0.780983 36.61645,3.734236 50.3355,8.530091 5.93117,2.073396 8,2.486555 8,1.597648 z' id='path817' inkscape:connector-curvature='0' /%3E%3C/svg%3E%0A");
-      background-size: 100% 100%;
-      filter: brightness(50%) sepia(100) saturate(100);
-    }
   }
 
   .chat-buttons {
@@ -313,15 +301,26 @@ div.jupiter.chatroom {
 // INPUT CONTROLS
 
 .chatroom .input-controls {
+  padding: 3px 0px;
+  height: 4rem;
+
+  .sticker-control {
+    ul li:hover {
+      box-shadow: 1px 1px 4px 1px $lightPurple;
+      border-radius: 1rem;
+    }
+  }
 
   button.toggle-sticker {
-    border: 1px solid $lightGrey;
+    border: none;
     background: linear-gradient(40deg, $darkPurple 0%, $lightPurple 40%);
     overflow: hidden;
     &:hover:enabled {
-      opacity: 0.5;
+      @include variedGradient;
+      opacity: 0.8;
     }
   }
+
   button.toggle-sticker::after {
     width: 94%;
     height: 94%;
@@ -333,9 +332,18 @@ div.jupiter.chatroom {
     background-position: 50%;
   }
 
+  &.show-stickers {
+    button.toggle-sticker {
+      box-shadow: 0px 0px 3px $lightPurple;
+    }
+    button.toggle-sticker:hover {
+      box-shadow: 0px 0px 0px $lightPurple;
+    }
+  }
+
   input[type="text"], input[type="submit"] {
     border-radius: 1.5rem;
-    border: 0.1em solid $lightGrey;
+    border: 0.1em solid $lightPurple;
   }
 
   input[type="text"]:focus:enabled {
@@ -344,10 +352,10 @@ div.jupiter.chatroom {
   }
 
   input[type="submit"] {
-    background-color: white;
-    color: $textColour;
+    @include gradient;
     &:hover:enabled {
-      @include gradient;
+      @include variedGradient;
+      opacity: 0.8;
       border: 0.1em solid $darkPurple;
     }
   }
@@ -382,7 +390,7 @@ div.jupiter.chatroom {
 
 .chatroom .chats .chat img[src*="#sticker"] {
   background: white;
-  box-shadow: 1px 1px 2px 0px #464545;
+  box-shadow: 1px 1px 2px 0px $background;
   border-radius: 6px;
   transform: rotate(2deg);
 }

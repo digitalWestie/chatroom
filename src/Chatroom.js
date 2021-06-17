@@ -248,10 +248,9 @@ export default class Chatroom extends Component<ChatroomProps, ChatroomState> {
           {waitingForBotResponse ? <WaitingBubble /> : null}
         </div>
 
-        <form className="input-controls" disabled={disableForm} onSubmit={this.handleSubmitMessage}>
+        <form className={ this.state.showStickerControl ? "input-controls show-stickers" : "input-controls" } disabled={disableForm} onSubmit={this.handleSubmitMessage}>
           {hasStickers === true ? (
-            <div className= { this.state.showStickerControl ? "selector active" : "selector" } ref={this.stickerSelectorRef} >
-              <button type="button" onClick={this.toggleStickerSelector}>✕</button>
+            <div className="sticker-control" ref={this.stickerSelectorRef} >
               <ul>
               {Object.keys(stickers).map((s, i) => (
                 <li onClick={this.submitSticker} key={i} data-content={":"+s+":"} style={{ backgroundImage: `url(${stickers[s].image})` }}></li>)
@@ -259,22 +258,24 @@ export default class Chatroom extends Component<ChatroomProps, ChatroomState> {
               </ul>
             </div>
           ) : null }
-          {hasStickers === true ? (<button disabled={waitingForBotResponse || isButtonMsg || disableForm} type="button" className="toggle-sticker" onClick={this.toggleStickerSelector} style={{}}></button>) : null}
 
-          <input
-            disabled={waitingForBotResponse || isButtonMsg || disableForm}
-            type="text"
-            ref={this.inputRef}
-          />
-          <input type="submit" value="Send" disabled={waitingForBotResponse || isButtonMsg || disableForm} />
-          {this.props.speechRecognition != null ? (
-            <SpeechInput
-              disableForm={disableForm}
-              language={this.props.speechRecognition}
-              onSpeechInput={message => this.handleInputChange(message, true)}
-              onSpeechEnd={this.handleSubmitMessage}
+          <div className="main-inputs">
+            {hasStickers === true ? (<button disabled={waitingForBotResponse || isButtonMsg || disableForm} type="button" className="toggle-sticker" onClick={this.toggleStickerSelector} style={{}}></button>) : null}
+            <input
+              disabled={waitingForBotResponse || isButtonMsg || disableForm}
+              type="text"
+              ref={this.inputRef}
             />
-          ) : null}
+            <input type="submit" value="Send" disabled={waitingForBotResponse || isButtonMsg || disableForm} />
+            {this.props.speechRecognition != null ? (
+              <SpeechInput
+                disableForm={disableForm}
+                language={this.props.speechRecognition}
+                onSpeechInput={message => this.handleInputChange(message, true)}
+                onSpeechEnd={this.handleSubmitMessage}
+              />
+            ) : null}
+          </div>
         </form>
       </div>
     );
